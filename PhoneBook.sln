@@ -20,6 +20,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhoneBook.Shared", "Shared\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneBook.Services.Person.Test", "Services\Person\Test\PhoneBook.Services.Person.Test\PhoneBook.Services.Person.Test.csproj", "{2D85183F-AFFC-4AB7-8125-73C3B9A84EB5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateways", "Gateways", "{9782A993-BD71-4366-B044-CD6840C99792}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneBook.Gateway", "Gateways\PhoneBook.Gateway\PhoneBook.Gateway.csproj", "{F819C645-9EFF-437A-8906-6345E3565FD0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +42,10 @@ Global
 		{2D85183F-AFFC-4AB7-8125-73C3B9A84EB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D85183F-AFFC-4AB7-8125-73C3B9A84EB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D85183F-AFFC-4AB7-8125-73C3B9A84EB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F819C645-9EFF-437A-8906-6345E3565FD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F819C645-9EFF-437A-8906-6345E3565FD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F819C645-9EFF-437A-8906-6345E3565FD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F819C645-9EFF-437A-8906-6345E3565FD0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -47,6 +55,7 @@ Global
 		{E2FEBEF3-4EDB-4669-BD1C-5482273EC4A0} = {38E136CA-7CB7-4A23-8F7C-BE421756E125}
 		{4BB920F9-9E1F-40EF-90E6-D7FC8B9C81AC} = {EB59E513-73DB-4B73-A494-2542019F0351}
 		{2D85183F-AFFC-4AB7-8125-73C3B9A84EB5} = {38E136CA-7CB7-4A23-8F7C-BE421756E125}
+		{F819C645-9EFF-437A-8906-6345E3565FD0} = {9782A993-BD71-4366-B044-CD6840C99792}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5A5415EA-9F40-43E5-BDB1-4324CBCAA409}
