@@ -59,6 +59,7 @@ namespace PhoneBook.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+                personUpdateInput.ContactInfos = await _contactInfoService.GetAllContactInfoPersonIdAsync(personUpdateInput.UUID);
                 return View(personUpdateInput);
             }
             var person = _personService.GetByPersonId(personUpdateInput.UUID);

@@ -16,6 +16,6 @@ namespace PhoneBook.Web.Models.Persons
 
         public string? Company { get; set; }
 
-        public List<ContactInfos.ContactInfoViewModel> ContactInfos { get; set; }
+        public List<ContactInfos.ContactInfoViewModel>? ContactInfos { get; set; }
     }
 }
