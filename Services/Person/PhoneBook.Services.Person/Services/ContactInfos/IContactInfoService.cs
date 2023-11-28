@@ -13,5 +13,7 @@ namespace PhoneBook.Services.Person.Services.ContactInfos
         Task<Response<ContactInfoDto>> CreateAsync(ContactInfoCreateDto courseCreateDto);
         Task<Response<NoContent>> UpdateAsync(ContactInfoUpdateDto courseUpdateDto);
         Task<Response<NoContent>> DeleteAsync(string id);
+
+        Task<Response<List<Dtos.Report.ReportDto>>> GetReport();
     }
 }

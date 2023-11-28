@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http.HttpResults;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using PhoneBook.Services.Person.Dtos.ContactInfos;
 using PhoneBook.Services.Person.Dtos.Persons;
@@ -11,7 +12,7 @@ namespace PhoneBook.Services.Person.Services.ContactInfos
 {
     public class ContactInfoService : IContactInfoService
     {
-       // private readonly IMongoCollection<Models.Person> _personCollection;
+        // private readonly IMongoCollection<Models.Person> _personCollection;
 
         private readonly IMongoCollection<Models.ContactInfo> _contactInfoCollection;
 
@@ -40,10 +41,10 @@ namespace PhoneBook.Services.Person.Services.ContactInfos
 
         public async Task<Response<ContactInfoDto>> GetByIdAsync(string id)
         {
-            var contactInfos = await _contactInfoCollection.Find<Models.ContactInfo>(x => x.UUID == id).ToListAsync();
-            if (!contactInfos.Any())
+            var contactInfos = await _contactInfoCollection.Find<Models.ContactInfo>(x => x.UUID == id).FirstOrDefaultAsync();
+            if (contactInfos == null)
             {
-                contactInfos = new List<Models.ContactInfo>();
+                contactInfos = new Models.ContactInfo();
             }
             return Response<ContactInfoDto>.Success(_mapper.Map<ContactInfoDto>(contactInfos), 200);
         }
@@ -70,7 +71,7 @@ namespace PhoneBook.Services.Person.Services.ContactInfos
         public async Task<Response<NoContent>> UpdateAsync(ContactInfoUpdateDto contactInfoUpdate)
         {
             var updateContactInfo = _mapper.Map<Models.ContactInfo>(contactInfoUpdate);
-            updateContactInfo.ModifiedTime= DateTime.Now;
+            updateContactInfo.ModifiedTime = DateTime.Now;
             var result = await _contactInfoCollection.FindOneAndReplaceAsync(x => x.UUID == contactInfoUpdate.UUID, updateContactInfo);
             if (result == null)
             {
@@ -89,6 +90,34 @@ namespace PhoneBook.Services.Person.Services.ContactInfos
             }
             else
                 return Response<NoContent>.Fail("Contact Info not found", 404);
+        }
+
+        public async Task<Response<List<Dtos.Report.ReportDto>>> GetReport()
+        {
+            var distinctLocations = await _contactInfoCollection
+            .Distinct<string>("InfoContent", Builders<ContactInfo>.Filter.Eq("InfoType", "Konum"))
+            .ToListAsync();
+
+            List<Dtos.Report.ReportDto> reportdtos = new List<Dtos.Report.ReportDto>();
+            foreach (var location in distinctLocations)
+            {
+                var locationQuery = Builders<ContactInfo>.Filter.Eq("InfoContent", location);
+                var locationResults = await _contactInfoCollection.Find(locationQuery).ToListAsync();
+                var personIds = locationResults.ConvertAll(info => info.PersonId);
+                var personCount = personIds.Count;
+                var phoneQuery = Builders<ContactInfo>.Filter.And(
+                    Builders<ContactInfo>.Filter.In("PersonId", personIds),
+                    Builders<ContactInfo>.Filter.Eq("InfoType", "Telefon")
+                );
+                var phoneCount = await _contactInfoCollection.CountDocumentsAsync(phoneQuery);
+                reportdtos.Add(new Dtos.Report.ReportDto()
+                {
+                    LocationName = location,
+                    PhoneNumberCount = phoneCount,
+                    PersonCount = personCount
+                });
+            }
+            return Response<List<Dtos.Report.ReportDto>>.Success(_mapper.Map<List<Dtos.Report.ReportDto>>(reportdtos), 200);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace PhoneBook.Services.Person.Services.Persons
             _mapper = mapper;
         }
 
-        
+
         public async Task<Response<List<PersonDto>>> GetAllAsync()
         {
             var persons = await _personCollection.Find(x => true).ToListAsync();
@@ -44,17 +44,11 @@ namespace PhoneBook.Services.Person.Services.Persons
         }
         public async Task<Response<PersonDto>> GetByIdAsync(string id)
         {
-            var persons = await _personCollection.Find<Models.Person>(x => x.UUID==id).ToListAsync();
-            if (persons.Any())
+            var persons = await _personCollection.Find<Models.Person>(x => x.UUID == id).FirstOrDefaultAsync();
+            if (persons == null)
             {
-                foreach (var person in persons)
-                {
-                    person.ContactInfoCount = await _contactInfoCollection.CountDocumentsAsync(x => x.PersonId == person.UUID);
-                }
+                return Response<PersonDto>.Fail("person not found", 404);
             }
-            else
-                persons = new List<Models.Person>();
-
             return Response<PersonDto>.Success(_mapper.Map<PersonDto>(persons), 200);
         }
 
@@ -90,5 +84,7 @@ namespace PhoneBook.Services.Person.Services.Persons
             else
                 return Response<NoContent>.Fail("Person not found", 404);
         }
+
+
     }
 }

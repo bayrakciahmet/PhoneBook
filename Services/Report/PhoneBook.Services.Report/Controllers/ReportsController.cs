@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MassTransit;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using PhoneBook.Services.Report.Dtos;
-using PhoneBook.Services.Report.Services;
+using PhoneBook.Services.Report.Services.Report;
 using PhoneBook.Shared.ControllerBases;
+using PhoneBook.Shared.Messages;
 
 namespace PhoneBook.Services.Report.Controllers
 {
@@ -11,9 +14,11 @@ namespace PhoneBook.Services.Report.Controllers
     public class ReportsController : CustomBaseController
     {
         private readonly IReportService _reportService;
-        public ReportsController(IReportService reportService)
+        private readonly ISendEndpointProvider _sendEndpointProvider;
+        public ReportsController(IReportService reportService, ISendEndpointProvider sendEndpointProvider)
         {
             _reportService = reportService;
+            _sendEndpointProvider = sendEndpointProvider;
         }
 
         [HttpGet]
@@ -26,14 +31,25 @@ namespace PhoneBook.Services.Report.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var discount = await _reportService.GetByIdAsync(id);
-            return CreateActionResultInstance(discount);
+            var report = await _reportService.GetByIdAsync(id);
+            return CreateActionResultInstance(report);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(ReportCreateDto reportCreateDto)
         {
-            return CreateActionResultInstance(await _reportService.CreateAsync(reportCreateDto));
+            reportCreateDto.Status = "Hazırlanıyor";
+            var report = await _reportService.CreateAsync(reportCreateDto);
+            var sendEndpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("queue:create-report-service"));
+
+            CreateReportMessageCommand createReportMessageCommand = new CreateReportMessageCommand()
+            {
+                ReportId = report.Data.Id
+            };
+            await sendEndpoint.Send<CreateReportMessageCommand>(createReportMessageCommand);
+
+
+            return CreateActionResultInstance(report);
         }
 
         [HttpPut]
@@ -47,5 +63,6 @@ namespace PhoneBook.Services.Report.Controllers
         {
             return CreateActionResultInstance(await _reportService.DeleteAsync(id));
         }
+
     }
 }

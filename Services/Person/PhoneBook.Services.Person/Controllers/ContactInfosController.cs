@@ -59,5 +59,14 @@ namespace PhoneBook.Services.Person.Controllers
             var response = await _contactInfoService.DeleteAsync(id);
             return CreateActionResultInstance(response);
         }
+
+
+        [HttpGet]
+        [Route("/api/[controller]/GetReport/")]
+        public async Task<IActionResult> GetReport()
+        {
+            var response = await _contactInfoService.GetReport();
+            return CreateActionResultInstance(response);
+        }
     }
 }
