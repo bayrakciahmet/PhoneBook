@@ -6,7 +6,8 @@ namespace PhoneBook.Web.Services.Report
     {
         Task<List<ReportViewModel>> GetAllReportAsync();
 
-        Task<ReportViewModel> GetByReportId(string reportId);
+        Task<List<ReportLocationViewModel>> GetAllReportLocationById(int reportId);
+        Task<ReportViewModel> GetByReportId(int reportId);
 
         Task<bool> CreateReportAsync(ReportCreateInput reportCreateInput);
 
