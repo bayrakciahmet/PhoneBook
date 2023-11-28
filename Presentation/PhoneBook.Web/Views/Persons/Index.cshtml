@@ -1,0 +1,103 @@
+﻿@{
+    ViewData["Title"] = "Telefon Rehberi";
+    ViewBag.MenuPersonActive = "side-menu--active";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model List<PersonViewModel>
+<!-- BEGIN: Content -->
+<div class="content">
+    <h2 class="intro-y text-lg font-medium mt-10">
+        @ViewData["Title"]
+    </h2>
+    <div class="grid grid-cols-12 gap-6 mt-5">
+        <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
+            <a asp-action="Create" asp-controller="Persons" class="btn btn-primary shadow-md mr-2">Yeni Kişi Ekle</a>
+
+        </div>
+        <!-- BEGIN: Data List -->
+        <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
+            <table class="table table-report -mt-2">
+                <thead>
+                    <tr>
+                        <th class="whitespace-nowrap">Ad</th>
+                        <th class="whitespace-nowrap">Soyad</th>
+                        <th class="whitespace-nowrap">Firma</th>
+                        <th class="whitespace-nowrap">Kayıt Tarihi</th>
+                        <th class="whitespace-nowrap">Kayıtlı İletişim Bilgisi</th>
+                        <th class="text-center whitespace-nowrap">İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach (var item in Model)
+                        {
+                            <tr class="intro-x">
+                                <td>
+                                    <a class="font-medium whitespace-nowrap">@item.FirstName</a>
+                                </td>
+                                <td>
+                                    <a class="font-medium whitespace-nowrap">@item.LastName</a>
+                                </td>
+                                <td>
+                                    <a class="font-medium whitespace-nowrap">@item.Company</a>
+                                </td>
+                                <td>
+                                    <a class="font-medium whitespace-nowrap">@item.CreatedTime</a>
+                                </td>
+                                <td>
+                                    <a class="font-medium whitespace-nowrap">@item.ContactInfoCount</a>
+                                </td>
+                                <td class="table-report__action w-56">
+                                    <div class="flex justify-center items-center">
+                                        <a asp-action="Update" asp-controller="Persons" asp-route-id="@item.UUID" class="flex items-center mr-3"> <i data-lucide="check-square" class="w-4 h-4 mr-1"></i> Düzenle </a>
+                                        <a data-action="@Url.Action("Delete", "Persons", new { id = item.UUID })" class="delete-btn flex items-center text-danger" href="javascript:;" data-tw-toggle="modal" data-tw-target="#delete-confirmation-modal"> <i data-lucide="trash-2" class="w-4 h-4 mr-1"></i> Sil </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+
+
+                </tbody>
+            </table>
+        </div>
+        <!-- END: Data List -->
+
+    </div>
+    <!-- BEGIN: Delete Confirmation Modal -->
+    <div id="delete-confirmation-modal" class="modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body p-0">
+                    <div class="p-5 text-center">
+                        <i data-lucide="x-circle" class="w-16 h-16 text-danger mx-auto mt-3"></i>
+                        <div class="text-3xl mt-5">Emin misin?</div>
+                        <div class="text-slate-500 mt-2">
+                            Bu kayıtları gerçekten silmek istiyor musunuz?
+                            <br>
+                            Bu işlem geri alınamaz.
+                        </div>
+                    </div>
+                    <form action="" method="get" id="delete-form">
+                        <div class="px-5 pb-8 text-center">
+                            <button type="button" data-tw-dismiss="modal" class="btn btn-outline-secondary w-24 mr-1">İptal</button>
+                            <button type="submit" class="btn btn-danger w-24">Sil</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END: Delete Confirmation Modal -->
+
+
+</div>
+<!-- END: Content -->
+@section scripts {
+    <script>
+        $('.delete-btn').click(function () {
+            $("#delete-form").attr("action", $(this).attr("data-action"));
+        });
+    </script>
+}

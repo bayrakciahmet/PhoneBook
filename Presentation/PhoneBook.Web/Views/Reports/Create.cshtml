@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "Yeni Rapor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model ReportCreateInput
+<!-- BEGIN: Content -->
+<div class="content">
+    <div class="intro-y flex items-center mt-8">
+        <h2 class="text-lg font-medium mr-auto">
+            @ViewData["Title"]
+        </h2>
+    </div>
+    <div class="grid grid-cols-12 gap-6 mt-5">
+        <div class="intro-y col-span-12 lg:col-span-6">
+            <form asp-controller="Reports" asp-action="Create" method="post">
+               @*  <input asp-for="Id" type="hidden" class="form-control w-full" placeholder="ReportId" /> *@
+                <div asp-validation-summary="ModelOnly"></div>
+                <div class="intro-y box p-5">
+                    <div>
+                        <label asp-for="ReportName" class="form-label"></label>
+                        <input asp-for="ReportName" id="crud-form-2" type="text" class="form-control w-full" placeholder="Rapor Adı" />
+                    </div>
+                    <div class="text-right mt-5">
+                        <a asp-action="Index" asp-controller="Reports" class="btn btn-outline-secondary w-24 mr-1">İptal</a>
+                        <button type="submit" class="btn btn-primary w-24">Kaydet</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- END: Content -->

@@ -1,0 +1,50 @@
+﻿@model List<ContactInfoViewModel>
+<h2 class="intro-y text-lg font-medium mt-10">
+   İletişim Bilgileri
+</h2>
+<div class="grid grid-cols-12 gap-6 mt-5">
+    <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
+        <a asp-action="Create" asp-controller="ContactInfos" asp-route-id="@ViewData["PersonId"]" class="btn btn-primary shadow-md mr-2">Yeni İletişim Bilgisi Ekle</a>
+    </div>
+    <!-- BEGIN: Data List -->
+    <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
+        <table class="table table-report -mt-2">
+            <thead>
+                <tr>
+                    <th class="whitespace-nowrap">Bilgi Tipi</th>
+                    <th class="whitespace-nowrap">Bilgi İçeriği</th>
+                    <th class="whitespace-nowrap">Kayıt Tarihi</th>
+                    <th class="text-center whitespace-nowrap">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (var item in Model)
+                    {
+                        <tr class="intro-x">
+                            <td>
+                                <a class="font-medium whitespace-nowrap">@item.InfoType</a>
+                            </td>
+                            <td>
+                                <a class="font-medium whitespace-nowrap">@item.InfoContent</a>
+                            </td>
+                            <td>
+                                <a class="font-medium whitespace-nowrap">@item.ModifiedTime</a>
+                            </td>                          
+                            <td class="table-report__action w-56">
+                                <div class="flex justify-center items-center">
+                                    <a asp-action="Update" asp-controller="ContactInfos" asp-route-id="@item.UUID" class="flex items-center mr-3"> <i data-lucide="check-square" class="w-4 h-4 mr-1"></i> Düzenle </a>
+                                    <a data-action="@Url.Action("Delete", "ContactInfos", new { id = item.UUID })" class="delete-btn flex items-center text-danger" href="javascript:;" data-tw-toggle="modal" data-tw-target="#delete-confirmation-modal"> <i data-lucide="trash-2" class="w-4 h-4 mr-1"></i> Sil </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+    <!-- END: Data List -->
+
+</div>
