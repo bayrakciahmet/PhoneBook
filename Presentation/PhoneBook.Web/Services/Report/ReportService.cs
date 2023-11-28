@@ -23,7 +23,7 @@ namespace PhoneBook.Web.Services.Report
             return responseSuccess.Data;
         }
 
-        public async Task<ReportViewModel> GetByReportId(string reportId)
+        public async Task<ReportViewModel> GetByReportId(int reportId)
         {
             var response = await _client.GetAsync($"reports/{reportId}");
             if (!response.IsSuccessStatusCode)
@@ -49,6 +49,18 @@ namespace PhoneBook.Web.Services.Report
         {
             var response = await _client.DeleteAsync($"reports/{reportId}");
             return response.IsSuccessStatusCode;
+        }
+
+        public async Task<List<ReportLocationViewModel>> GetAllReportLocationById(int reportId)
+        {
+            var response = await _client.GetAsync($"reports/GetAllReportById/{reportId}");
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+            var responseSuccess = await response.Content.ReadFromJsonAsync<Response<List<ReportLocationViewModel>>>();
+
+            return responseSuccess.Data;
         }
     }
 }

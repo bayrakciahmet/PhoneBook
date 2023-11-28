@@ -12,6 +12,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution_Items", "Solution_Items", "{FF8BB7C4-43E6-483F-B8DC-2C12B49F34E4}"
 	ProjectSection(SolutionItems) = preProject
 		Ports.txt = Ports.txt
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{EB59E513-73DB-4B73-A494-2542019F0351}"
@@ -30,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhoneBook.Services.Report",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{7E874919-D131-4339-A9AD-6349A9C52CDB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneBook.Web", "Presentation\PhoneBook.Web\PhoneBook.Web.csproj", "{4D320338-6DBA-4060-BC98-DC1115C52D98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhoneBook.Web", "Presentation\PhoneBook.Web\PhoneBook.Web.csproj", "{4D320338-6DBA-4060-BC98-DC1115C52D98}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

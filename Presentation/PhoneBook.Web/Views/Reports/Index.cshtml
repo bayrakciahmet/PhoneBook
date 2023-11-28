@@ -32,8 +32,18 @@
                         foreach (var item in Model)
                         {
                             <tr class="intro-x">
-                                <td>
-                                    <a class="font-medium whitespace-nowrap">@item.Status</a>
+
+                                <td class="w-40">
+                                    @{
+                                        if (item.Status == "Tamamlandı")
+                                        {
+                                            <div class="flex items-center justify-center text-success"> <i data-lucide="check-square" class="w-4 h-4 mr-2"></i> @item.Status </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="flex items-center justify-center text-danger"> <i data-lucide="check-square" class="w-4 h-4 mr-2"></i> @item.Status </div>
+                                        }
+                                    }
                                 </td>
                                 <td>
                                     <a class="font-medium whitespace-nowrap">@item.ReportName</a>

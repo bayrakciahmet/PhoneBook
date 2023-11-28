@@ -4,6 +4,7 @@ using PhoneBook.Services.Report.Consumers;
 using PhoneBook.Services.Report.Repositories.Report;
 using PhoneBook.Services.Report.Repositories.ReportLocation;
 using PhoneBook.Services.Report.Services.Report;
+using PhoneBook.Services.Report.Services.ReportLocation;
 using System.Data;
 using System.Reflection;
 
@@ -23,6 +24,7 @@ builder.Services.AddScoped<IDbConnection>(provider =>
 builder.Services.AddScoped<IReportRepository, ReportRepository>();
 builder.Services.AddScoped<IReportLocationRepository, ReportLocationRepository>();
 builder.Services.AddScoped<IReportService, ReportService>();
+builder.Services.AddScoped<IReportLocationService, ReportLocationService>();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddControllers();

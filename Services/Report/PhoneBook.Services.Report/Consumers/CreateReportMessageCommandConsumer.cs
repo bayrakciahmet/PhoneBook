@@ -1,9 +1,6 @@
 ﻿using MassTransit;
-using PhoneBook.Services.Report.Dtos;
 using PhoneBook.Services.Report.Repositories.Report;
 using PhoneBook.Services.Report.Repositories.ReportLocation;
-using PhoneBook.Services.Report.Services.Report;
-using PhoneBook.Services.Report.Services.ReportLocation;
 using PhoneBook.Shared.Messages;
 
 namespace PhoneBook.Services.Report.Consumers
@@ -44,7 +41,7 @@ namespace PhoneBook.Services.Report.Consumers
                 catch (Exception)
                 {
 
-                    
+
                 }
 
             }

@@ -1,9 +1,10 @@
-﻿@{
-    ViewData["Title"] = "Yeni Rapor";
+﻿
+@{
+    ViewData["Title"] = $"Rapor ({Model.ReportName})";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.MenuReportActive = "side-menu--active";
 }
-@model ReportCreateInput
+@model ReportUpdateInput
 <!-- BEGIN: Content -->
 <div class="content">
     <div class="intro-y flex items-center mt-8">
@@ -13,10 +14,14 @@
     </div>
     <div class="grid grid-cols-12 gap-6 mt-5">
         <div class="intro-y col-span-12 lg:col-span-6">
-            <form asp-controller="Reports" asp-action="Create" method="post">
-               @*  <input asp-for="Id" type="hidden" class="form-control w-full" placeholder="ReportId" /> *@
+            <form asp-controller="Reports" asp-action="Update" method="post">
+                 <input asp-for="Id" type="hidden" class="form-control w-full" placeholder="ReportId" />
                 <div asp-validation-summary="ModelOnly"></div>
                 <div class="intro-y box p-5">
+                    <div>
+                        <label asp-for="Status" class="form-label"></label>
+                        <input asp-for="Status" id="crud-form-2" type="text" class="form-control w-full" placeholder="Rapor Adı" disabled/>
+                    </div>
                     <div>
                         <label asp-for="ReportName" class="form-label"></label>
                         <input asp-for="ReportName" id="crud-form-2" type="text" class="form-control w-full" placeholder="Rapor Adı" />
@@ -29,5 +34,7 @@
             </form>
         </div>
     </div>
+
+    <partial name="/Views/Reports/_ReportLocationList.cshtml" model="@Model.reportLocations" />
 </div>
 <!-- END: Content -->

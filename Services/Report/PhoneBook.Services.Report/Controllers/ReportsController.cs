@@ -1,9 +1,8 @@
 ﻿using MassTransit;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using PhoneBook.Services.Report.Dtos;
 using PhoneBook.Services.Report.Services.Report;
+using PhoneBook.Services.Report.Services.ReportLocation;
 using PhoneBook.Shared.ControllerBases;
 using PhoneBook.Shared.Messages;
 
@@ -14,11 +13,13 @@ namespace PhoneBook.Services.Report.Controllers
     public class ReportsController : CustomBaseController
     {
         private readonly IReportService _reportService;
+        private readonly IReportLocationService _reportLocationService;
         private readonly ISendEndpointProvider _sendEndpointProvider;
-        public ReportsController(IReportService reportService, ISendEndpointProvider sendEndpointProvider)
+        public ReportsController(IReportService reportService, ISendEndpointProvider sendEndpointProvider, IReportLocationService reportLocationService)
         {
             _reportService = reportService;
             _sendEndpointProvider = sendEndpointProvider;
+            _reportLocationService = reportLocationService;
         }
 
         [HttpGet]
@@ -64,5 +65,12 @@ namespace PhoneBook.Services.Report.Controllers
             return CreateActionResultInstance(await _reportService.DeleteAsync(id));
         }
 
+        [HttpGet]
+        [Route("/api/[controller]/GetAllReportById/{reportId}")]
+        public async Task<IActionResult> GetAllReportById(int reportId)
+        {
+            var report = await _reportLocationService.GetAllAsyncReportId(reportId);
+            return CreateActionResultInstance(report);
+        }
     }
 }
