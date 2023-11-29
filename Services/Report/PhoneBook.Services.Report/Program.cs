@@ -1,4 +1,6 @@
+using Dapper;
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using PhoneBook.Services.Report.Consumers;
 using PhoneBook.Services.Report.Repositories.Report;
@@ -21,6 +23,7 @@ builder.Services.AddScoped<IDbConnection>(provider =>
     var connectionString = configuration.GetConnectionString("PostgreSql");
     return new NpgsqlConnection(connectionString);
 });
+
 builder.Services.AddScoped<IReportRepository, ReportRepository>();
 builder.Services.AddScoped<IReportLocationRepository, ReportLocationRepository>();
 builder.Services.AddScoped<IReportService, ReportService>();
@@ -47,10 +50,9 @@ builder.Services.AddMassTransit(x =>
     });
 });
 
-
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();

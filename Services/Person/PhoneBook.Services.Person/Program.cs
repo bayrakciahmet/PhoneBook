@@ -47,7 +47,6 @@ using (var scope = app.Services.CreateScope())
         await personService.CreateAsync(new PersonCreateDto { FirstName = "Merve", LastName = "BAYRAKCI", Company = "" });
     }
 }
-
 #endregion
 
 
