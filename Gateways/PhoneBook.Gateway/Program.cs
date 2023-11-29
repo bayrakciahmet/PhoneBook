@@ -10,6 +10,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 
 app.UseDeveloperExceptionPage();
+app.MapControllers();
 await app.UseOcelot();
 app.Run();
 

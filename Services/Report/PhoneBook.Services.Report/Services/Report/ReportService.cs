@@ -1,13 +1,8 @@
 ﻿using AutoMapper;
-using Dapper;
 using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.Extensions.Configuration;
-using Npgsql;
 using PhoneBook.Services.Report.Dtos;
 using PhoneBook.Services.Report.Repositories.Report;
 using PhoneBook.Shared.Dtos;
-using System.Data;
-using System.Data.Common;
 
 namespace PhoneBook.Services.Report.Services.Report
 {

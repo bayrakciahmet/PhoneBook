@@ -1,7 +1,5 @@
 ﻿using Dapper;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Npgsql;
-using PhoneBook.Shared.Dtos;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
 
 namespace PhoneBook.Services.Report.Repositories.Report

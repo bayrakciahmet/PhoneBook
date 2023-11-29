@@ -1,0 +1,72 @@
+version: "3.8"
+services:
+  persondb:
+    container_name: persondb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - persondb_volume:/data/db
+
+  reportdb:
+    container_name: reportdb
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:  
+      - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+    environment:
+      - RabbitMQUrl=rabbitmq
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=Dell5010
+      - POSTGRES_DB=reportdatabase
+    depends_on:
+      - rabbitmq
+
+  rabbitmq:
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+ 
+  person.api:
+    container_name: person.api
+    environment:
+      - DatabaseSettings:ConnectionString=mongodb://persondb:27017
+    ports:
+      - "6011:80"
+    depends_on:
+      - persondb
+
+  report.api:
+    container_name: report.api
+    environment:
+      - RabbitMQUrl=rabbitmq
+      - ApiGatewayUrl=http://gateway.api
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings:PostgreSql=User ID=admin; Password=Dell5010; Server=reportdb; Port=5432;Database=reportdatabase;Integrated Security=true;Pooling=true
+    ports:
+      - "6012:80"
+    depends_on:
+      - reportdb
+
+  gateway.api:
+    container_name: gateway.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      
+    ports:
+      - "6000:80"
+  aspnetcoremvc.web:
+    container_name: aspnetcoremvc.web
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ServiceApiSettings:GatewayBaseUri=http://gateway.api
+
+    ports:
+      - "6010:80"
+    depends_on:      
+      - person.api
+      - report.api
+      - gateway.api

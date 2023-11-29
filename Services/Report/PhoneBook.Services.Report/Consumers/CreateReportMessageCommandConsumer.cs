@@ -9,15 +9,18 @@ namespace PhoneBook.Services.Report.Consumers
     {
         private readonly IReportRepository _reportRepository;
         private readonly IReportLocationRepository _reportLocationRepository;
-        public CreateReportMessageCommandConsumer(IReportLocationRepository reportLocationRepository, IReportRepository reportRepository)
+        private readonly IConfiguration _configuration;
+        public CreateReportMessageCommandConsumer(IReportLocationRepository reportLocationRepository, IReportRepository reportRepository, IConfiguration configuration)
         {
             _reportLocationRepository = reportLocationRepository;
             _reportRepository = reportRepository;
+            _configuration = configuration;
+
         }
         public async Task Consume(ConsumeContext<CreateReportMessageCommand> context)
         {
             var client = new HttpClient();
-            var response = await client.GetAsync("http://localhost:6000/services/person/ContactInfos/GetReport");
+            var response = await client.GetAsync($"{_configuration["ApiGatewayUrl"]}/services/person/ContactInfos/GetReport");
             if (response.IsSuccessStatusCode)
             {
                 try

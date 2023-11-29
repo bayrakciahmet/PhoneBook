@@ -73,49 +73,17 @@
             <a href="javascript:;" class="mobile-menu-toggler"> <i data-lucide="x-circle" class="w-8 h-8 text-white transform -rotate-90"></i> </a>
             <ul class="scrollable__content py-2">
                 <li>
-                    <a href="javascript:;" class="menu menu--active">
-                        <div class="menu__icon"> <i data-lucide="te"></i> </div>
-                        <div class="menu__title"> Dashboard <i data-lucide="chevron-down" class="menu__sub-icon transform rotate-180"></i> </div>
-                    </a>
-                    <ul class="menu__sub-open">
-                        <li>
-                            <a href="#" class="menu">
-                                <div class="menu__icon"> <i data-lucide="activity"></i> </div>
-                                <div class="menu__title"> Overview 1 </div>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li>
-                    <a href="#" class="menu">
+                    <a asp-action="Index" asp-controller="Persons" class="menu">
                         <div class="menu__icon"> <i data-lucide="inbox"></i> </div>
-                        <div class="menu__title"> Inbox </div>
+                        <div class="menu__title"> Telefon Rehberi </div>
                     </a>
                 </li>
-
-                <li class="menu__devider my-6"></li>
                 <li>
-                    <a href="javascript:;" class="menu">
-                        <div class="menu__icon"> <i data-lucide="edit"></i> </div>
-                        <div class="menu__title"> Crud <i data-lucide="chevron-down" class="menu__sub-icon "></i> </div>
+                    <a asp-action="Index" asp-controller="Reports" class="menu">
+                        <div class="menu__icon"> <i data-lucide="printer"></i> </div>
+                        <div class="menu__title"> Raporlar </div>
                     </a>
-                    <ul class="">
-                        <li>
-                            <a href="#" class="menu">
-                                <div class="menu__icon"> <i data-lucide="activity"></i> </div>
-                                <div class="menu__title"> Data List </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="menu">
-                                <div class="menu__icon"> <i data-lucide="activity"></i> </div>
-                                <div class="menu__title"> Form </div>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
-
             </ul>
         </div>
     </div>

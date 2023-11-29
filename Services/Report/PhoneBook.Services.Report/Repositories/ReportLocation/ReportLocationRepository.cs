@@ -1,5 +1,4 @@
 ﻿using Dapper;
-using PhoneBook.Services.Report.Models;
 using System.Data;
 
 namespace PhoneBook.Services.Report.Repositories.ReportLocation
@@ -10,6 +9,7 @@ namespace PhoneBook.Services.Report.Repositories.ReportLocation
         private readonly IConfiguration _configuration;
         public ReportLocationRepository(IDbConnection dbConnection, IConfiguration configuration)
         {
+
             _configuration = configuration;
             _dbConnection = dbConnection;//new NpgsqlConnection(_configuration.GetConnectionString("PostgreSql"));
         }

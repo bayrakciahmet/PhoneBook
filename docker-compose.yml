@@ -1,0 +1,34 @@
+version: "3.8"
+services:
+  persondb:
+    image: mongo
+  reportdb:
+    image: postgres
+  rabbitmq: 
+    image: rabbitmq:3.12.9-management
+  person.api:
+   image: person_api_image
+   build:
+    context: .
+    dockerfile: Services/Person/PhoneBook.Services.Person/Dockerfile
+  report.api:
+   image: report_api_image
+   build:
+    context: .
+    dockerfile: Services/Report/PhoneBook.Services.Report/Dockerfile
+    
+  gateway.api:
+    image: gateway_api_image
+    build:
+      context: .
+      dockerfile: Gateways/PhoneBook.Gateway/Dockerfile
+  
+  aspnetcoremvc.web:
+    image: aspnetcoremvc.web_image
+    build:
+      context: .
+      dockerfile: Presentation/PhoneBook.Web/Dockerfile
+
+volumes:
+  persondb_volume:
+  reportdb_volume:
