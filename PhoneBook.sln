@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhoneBook.Services.Person",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution_Items", "Solution_Items", "{FF8BB7C4-43E6-483F-B8DC-2C12B49F34E4}"
 	ProjectSection(SolutionItems) = preProject
+		docker-compose.override.yml = docker-compose.override.yml
+		docker-compose.yml = docker-compose.yml
 		Ports.txt = Ports.txt
 		README.md = README.md
 	EndProjectSection
@@ -32,6 +34,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{7E874919-D131-4339-A9AD-6349A9C52CDB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhoneBook.Web", "Presentation\PhoneBook.Web\PhoneBook.Web.csproj", "{4D320338-6DBA-4060-BC98-DC1115C52D98}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneBook.Services.Report.Test", "Services\Report\PhoneBook.Services.Report.Test\PhoneBook.Services.Report.Test.csproj", "{F8C793FF-462A-4BCE-BD90-984A6A146BDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneBook.Web.Test", "Presentation\PhoneBook.Web.Test\PhoneBook.Web.Test.csproj", "{F08F22A9-C85B-4FFB-8A49-E76920CB8778}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +69,14 @@ Global
 		{4D320338-6DBA-4060-BC98-DC1115C52D98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D320338-6DBA-4060-BC98-DC1115C52D98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D320338-6DBA-4060-BC98-DC1115C52D98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8C793FF-462A-4BCE-BD90-984A6A146BDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8C793FF-462A-4BCE-BD90-984A6A146BDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8C793FF-462A-4BCE-BD90-984A6A146BDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8C793FF-462A-4BCE-BD90-984A6A146BDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F08F22A9-C85B-4FFB-8A49-E76920CB8778}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F08F22A9-C85B-4FFB-8A49-E76920CB8778}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F08F22A9-C85B-4FFB-8A49-E76920CB8778}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F08F22A9-C85B-4FFB-8A49-E76920CB8778}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,6 +90,8 @@ Global
 		{F0138047-43C8-4A50-91F8-C0691CDB34DD} = {45ABE4DD-DDE0-43D5-949C-6812A2BAEE40}
 		{CAE5CDE0-4026-42B8-925A-FB5107F1000A} = {F0138047-43C8-4A50-91F8-C0691CDB34DD}
 		{4D320338-6DBA-4060-BC98-DC1115C52D98} = {7E874919-D131-4339-A9AD-6349A9C52CDB}
+		{F8C793FF-462A-4BCE-BD90-984A6A146BDE} = {F0138047-43C8-4A50-91F8-C0691CDB34DD}
+		{F08F22A9-C85B-4FFB-8A49-E76920CB8778} = {7E874919-D131-4339-A9AD-6349A9C52CDB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5A5415EA-9F40-43E5-BDB1-4324CBCAA409}
