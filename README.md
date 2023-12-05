@@ -26,7 +26,7 @@ Mikroservisler
   DB olarak MongoDB ve içerisinde Persons ve ContactInfo koleksiyonları yer almaktadır.
 
 =>PhoneBook.Services.Report
-  Report mikroservisi ise rapor ve raporların asenkron olarak oluşturulmasından sorumludur.
+  Report mikroservisi ise raporların asenkron olarak oluşturulmasından sorumludur.
   DB olarak PostgreSQL ve içerisinde report ve reportlocations tabloları yer almaktadır.
   Message Queue sistemi için RabbitMQ tercih edilmiştir.
 
