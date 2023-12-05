@@ -45,11 +45,11 @@ Mikroservisler
 
     /Services
     
-        /ContactInfo
+        /ContactInfoService
         
-        /Person
+        /PersonService
 
-        /Report
+        /ReportService
         
 Servisleri ile gateway üzerinden mikroservislerle iletişim kurulmuştur.
 
