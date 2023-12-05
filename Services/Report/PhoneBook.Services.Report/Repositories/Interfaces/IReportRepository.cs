@@ -1,4 +1,4 @@
-﻿namespace PhoneBook.Services.Report.Repositories.Report
+﻿namespace PhoneBook.Services.Report.Repositories.Interfaces
 {
     public interface IReportRepository
     {

@@ -1,5 +1,5 @@
 ﻿using Moq;
-using PhoneBook.Services.Report.Repositories.ReportLocation;
+using PhoneBook.Services.Report.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

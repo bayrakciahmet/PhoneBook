@@ -1,6 +1,6 @@
 ﻿using PhoneBook.Web.Models.Reports;
 
-namespace PhoneBook.Web.Services.Report
+namespace PhoneBook.Web.Services.Interfaces
 {
     public interface IReportService
     {

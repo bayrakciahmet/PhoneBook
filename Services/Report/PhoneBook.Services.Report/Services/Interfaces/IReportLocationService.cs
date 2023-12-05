@@ -1,7 +1,7 @@
 ﻿using PhoneBook.Services.Report.Models;
 using PhoneBook.Shared.Dtos;
 
-namespace PhoneBook.Services.Report.Services.ReportLocation
+namespace PhoneBook.Services.Report.Services.Interfaces
 {
     public interface IReportLocationService
     {

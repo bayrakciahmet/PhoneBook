@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 using PhoneBook.Services.Report.Dtos;
-using PhoneBook.Services.Report.Repositories.ReportLocation;
+using PhoneBook.Services.Report.Repositories.Interfaces;
+using PhoneBook.Services.Report.Services.Interfaces;
 using PhoneBook.Shared.Dtos;
 
-namespace PhoneBook.Services.Report.Services.ReportLocation
+namespace PhoneBook.Services.Report.Services.Interfaces.Implementations
 {
     public class ReportLocationService : IReportLocationService
     {

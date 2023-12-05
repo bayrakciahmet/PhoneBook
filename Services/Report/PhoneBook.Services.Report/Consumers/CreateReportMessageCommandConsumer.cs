@@ -1,6 +1,5 @@
 ﻿using MassTransit;
-using PhoneBook.Services.Report.Repositories.Report;
-using PhoneBook.Services.Report.Repositories.ReportLocation;
+using PhoneBook.Services.Report.Repositories.Interfaces;
 using PhoneBook.Shared.Messages;
 
 namespace PhoneBook.Services.Report.Consumers
@@ -23,32 +22,21 @@ namespace PhoneBook.Services.Report.Consumers
             var response = await client.GetAsync($"{_configuration["ApiGatewayUrl"]}/services/person/ContactInfos/GetReport");
             if (response.IsSuccessStatusCode)
             {
-                try
+                var content = await response.Content.ReadFromJsonAsync<Shared.Dtos.Response<List<Models.ReportLocation>>>();
+                if (content != null)
                 {
-                    var content = await response.Content.ReadFromJsonAsync<Shared.Dtos.Response<List<Models.ReportLocation>>>();
-                    if (content != null)
+                    if (content.Data != null)
                     {
-                        if (content.Data != null)
+                        foreach (var item in content.Data)
                         {
-                            foreach (var item in content.Data)
-                            {
-                                item.ReportId = context.Message.ReportId;
-                                await _reportLocationRepository.Create(item);
-                            }
-                            var report = _reportRepository.GetById(context.Message.ReportId);
-                            await _reportRepository.Update(new Models.Report() { Id = context.Message.ReportId, Status = "Tamamlandı", ReportName = report.Result.ReportName });
+                            item.ReportId = context.Message.ReportId;
+                            await _reportLocationRepository.Create(item);
                         }
+                        var report = _reportRepository.GetById(context.Message.ReportId);
+                        await _reportRepository.Update(new Models.Report() { Id = context.Message.ReportId, Status = "Tamamlandı", ReportName = report.Result.ReportName });
                     }
-
                 }
-                catch (Exception)
-                {
-
-
-                }
-
             }
-
         }
     }
 }

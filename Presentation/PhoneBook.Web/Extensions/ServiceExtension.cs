@@ -1,7 +1,6 @@
 ﻿using PhoneBook.Web.Models;
-using PhoneBook.Web.Services.ContactInfo;
-using PhoneBook.Web.Services.Person;
-using PhoneBook.Web.Services.Report;
+using PhoneBook.Web.Services.Interfaces;
+using PhoneBook.Web.Services.Interfaces.Implementations;
 
 namespace PhoneBook.Web.Extensions
 {

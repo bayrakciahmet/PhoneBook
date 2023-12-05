@@ -3,8 +3,7 @@ using Moq;
 using PhoneBook.Web.Controllers;
 using PhoneBook.Web.Models.ContactInfos;
 using PhoneBook.Web.Models.Persons;
-using PhoneBook.Web.Services.ContactInfo;
-using PhoneBook.Web.Services.Person;
+using PhoneBook.Web.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,7 +46,7 @@ namespace PhoneBook.Web.Test.Controllers
 
             var controller = new ContactInfosController(contactInfoServiceMock.Object, personServiceMock.Object);
 
-            var personId = "samplePersonId";
+            var personId = "personId";
             var person = new PersonViewModel(); 
 
             personServiceMock.Setup(x => x.GetByPersonId(personId))

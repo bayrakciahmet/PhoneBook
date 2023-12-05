@@ -3,7 +3,7 @@ using PhoneBook.Services.Person.Dtos.ContactInfos;
 using PhoneBook.Services.Person.Dtos.Persons;
 using PhoneBook.Shared.Dtos;
 
-namespace PhoneBook.Services.Person.Services.ContactInfos
+namespace PhoneBook.Services.Person.Services.Interfaces
 {
     public interface IContactInfoService
     {

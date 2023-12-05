@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PhoneBook.Services.Person.Dtos.Persons;
-using PhoneBook.Services.Person.Services.Persons;
+using PhoneBook.Services.Person.Services.Interfaces;
 using PhoneBook.Shared.ControllerBases;
 
 namespace PhoneBook.Services.Person.Controllers

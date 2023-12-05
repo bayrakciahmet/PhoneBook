@@ -1,8 +1,9 @@
 ﻿using PhoneBook.Shared.Dtos;
 using PhoneBook.Web.Models.ContactInfos;
+using PhoneBook.Web.Services.Interfaces;
 using System.Net.Http.Json;
 
-namespace PhoneBook.Web.Services.ContactInfo
+namespace PhoneBook.Web.Services.Interfaces.Implementations
 {
     public class ContactInfoService : IContactInfoService
     {
@@ -47,12 +48,12 @@ namespace PhoneBook.Web.Services.ContactInfo
 
         public async Task<bool> CreateContactInfoAsync(ContactInfoCreateInput contactInfoCreateInput)
         {
-            var response = await _client.PostAsJsonAsync<ContactInfoCreateInput>("contactinfos", contactInfoCreateInput);
+            var response = await _client.PostAsJsonAsync("contactinfos", contactInfoCreateInput);
             return response.IsSuccessStatusCode;
         }
         public async Task<bool> UpdateContactInfoAsync(ContactInfoUpdateInput contactInfoUpdateInput)
         {
-            var response = await _client.PutAsJsonAsync<ContactInfoUpdateInput>("contactinfos", contactInfoUpdateInput);
+            var response = await _client.PutAsJsonAsync("contactinfos", contactInfoUpdateInput);
             return response.IsSuccessStatusCode;
         }
         public async Task<bool> DeleteContactInfoAsync(string id)

@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using PhoneBook.Web.Models.Persons;
-using PhoneBook.Web.Services.ContactInfo;
-using PhoneBook.Web.Services.Person;
+using PhoneBook.Web.Services.Interfaces;
 
 namespace PhoneBook.Web.Controllers
 {
@@ -75,6 +73,6 @@ namespace PhoneBook.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-      
+
     }
 }

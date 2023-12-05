@@ -34,6 +34,7 @@ services:
     container_name: person.api
     environment:
       - DatabaseSettings:ConnectionString=mongodb://persondb:27017
+      - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "6011:80"
     depends_on:

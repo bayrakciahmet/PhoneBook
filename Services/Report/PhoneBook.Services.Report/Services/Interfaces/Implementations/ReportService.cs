@@ -1,16 +1,15 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http.HttpResults;
 using PhoneBook.Services.Report.Dtos;
-using PhoneBook.Services.Report.Repositories.Report;
+using PhoneBook.Services.Report.Repositories.Interfaces;
 using PhoneBook.Shared.Dtos;
 
-namespace PhoneBook.Services.Report.Services.Report
+namespace PhoneBook.Services.Report.Services.Interfaces.Implementations
 {
     public class ReportService : IReportService
     {
         private readonly IReportRepository _reportRepository;
         private readonly IMapper _mapper;
-
 
         public ReportService(IMapper mapper, IReportRepository reportRepository)
         {

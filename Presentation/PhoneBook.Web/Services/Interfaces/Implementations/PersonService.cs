@@ -1,7 +1,8 @@
 ﻿using PhoneBook.Shared.Dtos;
 using PhoneBook.Web.Models.Persons;
+using PhoneBook.Web.Services.Interfaces;
 
-namespace PhoneBook.Web.Services.Person
+namespace PhoneBook.Web.Services.Interfaces.Implementations
 {
     public class PersonService : IPersonService
     {
@@ -10,7 +11,7 @@ namespace PhoneBook.Web.Services.Person
         {
             _client = client;
         }
-       
+
 
         public async Task<List<PersonViewModel>> GetAllPersonAsync()
         {
@@ -38,12 +39,12 @@ namespace PhoneBook.Web.Services.Person
 
         public async Task<bool> CreatePersonAsync(PersonCreateInput personCreateInput)
         {
-            var response = await _client.PostAsJsonAsync<PersonCreateInput>("persons", personCreateInput);
+            var response = await _client.PostAsJsonAsync("persons", personCreateInput);
             return response.IsSuccessStatusCode;
         }
         public async Task<bool> UpdatePersonAsync(PersonUpdateInput personUpdateInput)
         {
-            var response = await _client.PutAsJsonAsync<PersonUpdateInput>("persons", personUpdateInput);
+            var response = await _client.PutAsJsonAsync("persons", personUpdateInput);
             return response.IsSuccessStatusCode;
         }
         public async Task<bool> DeletePersonAsync(string personId)

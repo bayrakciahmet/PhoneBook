@@ -5,13 +5,13 @@ using PhoneBook.Services.Person.Dtos.Persons;
 using PhoneBook.Services.Person.Settings.Interfaces;
 using PhoneBook.Shared.Dtos;
 
-namespace PhoneBook.Services.Person.Services.Persons
+namespace PhoneBook.Services.Person.Services.Interfaces.Implementations
 {
     public class PersonService : IPersonService
     {
-        private readonly IMongoCollection<Models.Person> _personCollection;
+        public readonly IMongoCollection<Models.Person> _personCollection;
 
-        private readonly IMongoCollection<Models.ContactInfo> _contactInfoCollection;
+        public readonly IMongoCollection<Models.ContactInfo> _contactInfoCollection;
 
         private readonly IMapper _mapper;
 
@@ -44,7 +44,7 @@ namespace PhoneBook.Services.Person.Services.Persons
         }
         public async Task<Response<PersonDto>> GetByIdAsync(string id)
         {
-            var persons = await _personCollection.Find<Models.Person>(x => x.UUID == id).FirstOrDefaultAsync();
+            var persons = await _personCollection.Find(x => x.UUID == id).FirstOrDefaultAsync();
             if (persons == null)
             {
                 return Response<PersonDto>.Fail("person not found", 404);
@@ -84,7 +84,6 @@ namespace PhoneBook.Services.Person.Services.Persons
             else
                 return Response<NoContent>.Fail("Person not found", 404);
         }
-
 
     }
 }

@@ -1,6 +1,6 @@
 ﻿using PhoneBook.Web.Models.Persons;
 
-namespace PhoneBook.Web.Services.Person
+namespace PhoneBook.Web.Services.Interfaces
 {
     public interface IPersonService
     {

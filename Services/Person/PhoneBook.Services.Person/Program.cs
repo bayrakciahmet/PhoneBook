@@ -2,17 +2,20 @@ using Microsoft.Extensions.Options;
 using PhoneBook.Services.Person.Settings.Interfaces;
 using PhoneBook.Services.Person.Settings;
 using System.Reflection;
-using PhoneBook.Services.Person.Services.Persons;
-using PhoneBook.Services.Person.Services.ContactInfos;
 using PhoneBook.Services.Person.Dtos.Persons;
+using Microsoft.OpenApi.Models;
+using PhoneBook.Services.Person.Services.Interfaces;
+using PhoneBook.Services.Person.Services.Interfaces.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Person API", Version = "v1" });
+});
 #region AddScoped
 builder.Services.AddScoped<IPersonService, PersonService>();
 builder.Services.AddScoped<IContactInfoService, ContactInfoService>();
@@ -55,7 +58,10 @@ if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Person API V1");
+    });
 }
 app.MapControllers();
 app.Run();

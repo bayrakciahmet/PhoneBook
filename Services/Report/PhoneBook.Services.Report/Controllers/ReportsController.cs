@@ -1,8 +1,7 @@
 ﻿using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using PhoneBook.Services.Report.Dtos;
-using PhoneBook.Services.Report.Services.Report;
-using PhoneBook.Services.Report.Services.ReportLocation;
+using PhoneBook.Services.Report.Services.Interfaces;
 using PhoneBook.Shared.ControllerBases;
 using PhoneBook.Shared.Messages;
 

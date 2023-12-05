@@ -2,13 +2,7 @@
 using Moq;
 using PhoneBook.Web.Controllers;
 using PhoneBook.Web.Models.Persons;
-using PhoneBook.Web.Services.ContactInfo;
-using PhoneBook.Web.Services.Person;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using PhoneBook.Web.Services.Interfaces;
 
 namespace PhoneBook.Web.Test.Controllers
 {
@@ -25,7 +19,7 @@ namespace PhoneBook.Web.Test.Controllers
 
             var personList = new List<PersonViewModel>
         {
-            new PersonViewModel { UUID = "1", FirstName = "John", LastName = "Doe", Company = "ABC Inc.", CreatedTime = DateTime.Now, ContactInfoCount = 3 }           
+            new PersonViewModel { UUID = "1", FirstName = "John", LastName = "Doe", Company = "ABC Inc.", CreatedTime = DateTime.Now, ContactInfoCount = 3 }
         };
 
             personServiceMock.Setup(service => service.GetAllPersonAsync()).ReturnsAsync(personList);
