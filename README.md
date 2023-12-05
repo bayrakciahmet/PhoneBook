@@ -25,24 +25,33 @@ Mikroservisler
   Raporların asenkron olarak oluşturulması için RabbitMQ ve MassTransit kullanılmıştır.
 
 =>Mikroservisler Arası iletişim
+
   PhoneBook.Services.Report/Controllers/ReportsController içerisinde Create Methodunda MassTransit ile "queue:create-report-service" kuyruğuna mesaj bırakılarak, 
   PhoneBook.Services.Report/Consumers/CreateReportMessageCommandConsumer.cs içerisinde bırakılan mesajların sırayla dinlenmesi sağlanmıştır.
-  CreateReportMessageCommandConsumer sınıfı içerisinde PhoneBook.Services.Person servisi Gateway üzerinden REST protokolü ile iletişim kurarak 
-  rapor için gerekli bilgileri almaktadır.
+  CreateReportMessageCommandConsumer sınıfı içerisinde PhoneBook.Services.Person servisi ile Gateway üzerinden iletişim kurularak raporun gerekli bilgileri alınır.
 
 
 =>PhoneBook.Gateway
 
 =>PhoneBook.Web
-ASP.NET Core MVC projesi
+
+.NET Core MVC projesi
+
     /Services
-        ContactInfo
-        Person
-        Report
+    
+        /ContactInfo
+        
+        /Person
+
+        /Report
+        
 Servisleri ile gateway üzerinden mikroservislerle iletişim kurulmuştur.
 
 
 Unit Test Projeleri
+
 =>PhoneBook.Presentation.Web.Test
+
 =>PhoneBook.Services.Person.Test
+
 =>PhoneBook.Services.Report.Test
