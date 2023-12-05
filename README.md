@@ -43,13 +43,21 @@ Mikroservisler
 
 .NET Core MVC projesi
 
+     /Controllers
+
+        PersonsController.cs
+
+        ContactInfosController.cs
+
+        ReportsController.cs
+        
     /Services
     
-        /ContactInfoService
+        ContactInfoService.cs
         
-        /PersonService
+        PersonService.cs
 
-        /ReportService
+        ReportService.cs
         
 Servisleri ile gateway üzerinden mikroservislerle iletişim kurulmuştur.
 
