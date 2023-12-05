@@ -1,14 +1,20 @@
 Projenin Çalıştırılması
 =>Proje dizininde "docker-compose build" ve ardından  "docker-compose up" komutu ile projenin docker üzerinden ayağa kalması sağlanır. 
+
   -reportApi servisinde postgresql database otomatik olarak docker-compose yapılırken tablolar create edilmektedir. PhoneBook/sql/create_tables.sql
+  
   -docker-compose up işlemi tamamlandıktan sonra hiç bir ek konfigürasyon yapmadan http://localhost:6010/ web projesine erişilebilir.
 
 Services
+
   -personApi => http://localhost:6011/swagger/index.html
+  
   -reportApi => http://localhost:6012/swagger/index.html
+  
 Gateway => http://localhost:6000/
   Gateway üzerinde swagger bulunmamaktadır.
   PhoneBook.Gateway/configuration.production.json route yapılanması
+  
 Web => http://localhost:6010/
 
 
