@@ -28,7 +28,7 @@ Mikroservisler
 =>PhoneBook.Services.Report
   Report mikroservisi ise rapor ve raporların asenkron olarak oluşturulmasından sorumludur.
   DB olarak PostgreSQL ve içerisinde report ve reportlocations tabloları yer almaktadır.
-  Raporların asenkron olarak oluşturulması için RabbitMQ ve MassTransit kullanılmıştır.
+  Message Queue sistemi için RabbitMQ tercih edilmiştir.
 
 =>Mikroservisler Arası iletişim
 
