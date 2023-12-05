@@ -1,38 +1,38 @@
-Projenin Çalýþtýrýlmasý
-=>Proje dizininde "docker-compose build" ve ardýndan  "docker-compose up" methodu ile projenin docker üzerinden ayaða kalmasý saðlanýr. 
-  -reportApi servisinde postgresql database ye otomatik olarak docker-compose yapýlýrken tablolar create edilmektedir. PhoneBook/sql/create_tables.sql
-  -docker-compose up iþlemi tamamlandýktan sonra hiç bir ek konfigürasyon yapmadan http://localhost:6010/ web projesine eriþilebilir.
+Projenin Ã‡alÄ±ÅŸtÄ±rÄ±lmasÄ±
+=>Proje dizininde "docker-compose build" ve ardÄ±ndan  "docker-compose up" komutu ile projenin docker Ã¼zerinden ayaÄŸa kalmasÄ± saÄŸlanÄ±r. 
+  -reportApi servisinde postgresql database ye otomatik olarak docker-compose yapÄ±lÄ±rken tablolar create edilmektedir. PhoneBook/sql/create_tables.sql
+  -docker-compose up iÅŸlemi tamamlandÄ±ktan sonra hiÃ§ bir ek konfigÃ¼rasyon yapmadan http://localhost:6010/ web projesine eriÅŸilebilir.
 
 Services
   -personApi => http://localhost:6011/swagger/index.html
   -reportApi => http://localhost:6012/swagger/index.html
 Gateway => http://localhost:6000/
-  Gateway üzerinde bir swagger bulunmamaktadýr.
-  PhoneBook.Gateway/configuration.production.json route yapýlanmasý
+  Gateway Ã¼zerinde bir swagger bulunmamaktadÄ±r.
+  PhoneBook.Gateway/configuration.production.json route yapÄ±lanmasÄ±
 Web => http://localhost:6010/
 
 
-Projenin genel yapýsý
+Projenin genel yapÄ±sÄ±
 Mikroservisler
 
 =>PhoneBook.Services.Person
-  Person mikroservisi rehberdeki kiþiler ve kiþilerin iletiþim bilgilerinden sorumludur.
-  DB olarak MongoDB ve içerisinde Persons ve ContactInfo koleksiyonlarý yer almaktadýr.
+  Person mikroservisi rehberdeki kiÅŸiler ve kiÅŸilerin iletiÅŸim bilgilerinden sorumludur.
+  DB olarak MongoDB ve iÃ§erisinde Persons ve ContactInfo koleksiyonlarÄ± yer almaktadÄ±r.
 
 =>PhoneBook.Services.Report
-  Report mikroservisi ise rapor ve raporlarýn asenkron olarak oluþturulmasýndan sorumludur.
-  DB olarak PostgreSQL ve içerisinde report ve reportlocations tablolarý yer almaktadýr.
-  Raporlarýn asenkron olarak oluþturulmasý için RabbitMQ ve MassTransit kullanýlmýþtýr.
+  Report mikroservisi ise rapor ve raporlarÄ±n asenkron olarak oluÅŸturulmasÄ±ndan sorumludur.
+  DB olarak PostgreSQL ve iÃ§erisinde report ve reportlocations tablolarÄ± yer almaktadÄ±r.
+  RaporlarÄ±n asenkron olarak oluÅŸturulmasÄ± iÃ§in RabbitMQ ve MassTransit kullanÄ±lmÄ±ÅŸtÄ±r.
 
-=>Mikroservisler Arasý iletiþim
-  PhoneBook.Services.Report/Controllers/ReportsController içerisinde Create Methodunda MassTransit ile "queue:create-report-service" kuyruðuna mesaj býrakýlarak, 
-  PhoneBook.Services.Report/Consumers/CreateReportMessageCommandConsumer.cs içerisinde býrakýlan mesajlarýn sýrayla dinlenmesi saðlanmýþtýr.
-  CreateReportMessageCommandConsumer sýnýfý içerisinde Report servisi PhoneBook.Services.Person servisi ile REST protokolü ile iletiþim kurarak 
-  rapor için gerekli bilgileri almaktadýr.
+=>Mikroservisler ArasÄ± iletiÅŸim
+  PhoneBook.Services.Report/Controllers/ReportsController iÃ§erisinde Create Methodunda MassTransit ile "queue:create-report-service" kuyruÄŸuna mesaj bÄ±rakÄ±larak, 
+  PhoneBook.Services.Report/Consumers/CreateReportMessageCommandConsumer.cs iÃ§erisinde bÄ±rakÄ±lan mesajlarÄ±n sÄ±rayla dinlenmesi saÄŸlanmÄ±ÅŸtÄ±r.
+  CreateReportMessageCommandConsumer sÄ±nÄ±fÄ± iÃ§erisinde Report servisi PhoneBook.Services.Person servisi ile REST protokolÃ¼ ile iletiÅŸim kurarak 
+  rapor iÃ§in gerekli bilgileri almaktadÄ±r.
 
 
 =>PhoneBook.Gateway
-   Ocelot ile mikroservisler bir araya getirilmiþtir.
+   Ocelot ile mikroservisler bir araya getirilmiÅŸtir.
 
 =>PhoneBook.Web
 ASP.NET Core MVC projesi
@@ -40,7 +40,7 @@ ASP.NET Core MVC projesi
         ContactInfo
         Person
         Report
-Servisleri ile gateway üzerinden mikroservislerle iletiþim kurulmuþtur.
+Servisleri ile gateway Ã¼zerinden mikroservislerle iletiÅŸim kurulmuÅŸtur.
 
 
 Unit Test Projeleri
