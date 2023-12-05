@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Moq;
 using PhoneBook.Services.Report.Dtos;
-using PhoneBook.Services.Report.Repositories.Report;
-using PhoneBook.Services.Report.Services.Report;
+using PhoneBook.Services.Report.Repositories.Interfaces;
+using PhoneBook.Services.Report.Services.Interfaces.Implementations;
 
 namespace PhoneBook.Services.Report.Test.Services
 {
@@ -99,5 +99,123 @@ namespace PhoneBook.Services.Report.Test.Services
             Assert.True(response.IsSuccessful);
             Assert.Equal(StatusCodes.Status204NoContent, response.StatusCode);
         }
+
+
+
+        //unit test
+
+        [Fact]
+        public async Task GetAllAsync_ShouldReturnReports()
+        {
+            // Arrange
+            var mockRepository = new Mock<IReportRepository>();
+            var mockMapper = new Mock<IMapper>();
+
+            mockRepository.Setup(repo => repo.GetAll()).ReturnsAsync(new List<Models.Report>());
+
+            mockMapper.Setup(mapper => mapper.Map<List<ReportDto>>(It.IsAny<List<Models.Report>>()))
+                      .Returns((List<Models.Report> reports) => reports.Select(r => new ReportDto { Id = r.Id }).ToList());
+
+            var reportService = new ReportService(mockMapper.Object, mockRepository.Object);
+
+            // Act
+            var result = await reportService.GetAllAsync();
+
+            // Assert
+            Assert.True(result.IsSuccessful);
+            Assert.NotNull(result.Data);
+            Assert.Empty(result.Data);
+        }
+        [Fact]
+        public async Task GetByIdAsync_ExistingId_ShouldReturnReport()
+        {
+            // Arrange
+            var mockRepository = new Mock<IReportRepository>();
+            var mockMapper = new Mock<IMapper>();
+            var existingReport = new Models.Report { Id = 1, ReportName = "Rapor 1", RequestDate = DateTime.Now, Status = "Completed" };
+
+            mockRepository.Setup(repo => repo.GetById(1)).ReturnsAsync(existingReport);
+
+            mockMapper.Setup(mapper => mapper.Map<ReportDto>(It.IsAny<Models.Report>()))
+                      .Returns((Models.Report report) => new ReportDto { Id = report.Id });
+
+            var reportService = new ReportService(mockMapper.Object, mockRepository.Object);
+
+            // Act
+            var result = await reportService.GetByIdAsync(1);
+
+            // Assert
+            Assert.True(result.IsSuccessful);
+            Assert.NotNull(result.Data);
+            Assert.Equal(existingReport.Id, result.Data.Id);
+        }
+
+        [Fact]
+        public async Task CreateAsync_ValidDto_ShouldCreateReport()
+        {
+            // Arrange
+            var mockRepository = new Mock<IReportRepository>();
+            var mockMapper = new Mock<IMapper>();
+            var reportCreateDto = new ReportCreateDto { ReportName = "Yeni Rapor", Status = "Hazırlanıyor" };
+
+            mockRepository.Setup(repo => repo.Create(It.IsAny<Models.Report>())).ReturnsAsync(1);
+
+            mockMapper.Setup(mapper => mapper.Map<Models.Report>(It.IsAny<ReportCreateDto>()))
+                      .Returns((ReportCreateDto dto) => new Models.Report { Id = 1, ReportName = dto.ReportName, RequestDate = DateTime.Now, Status = dto.Status });
+
+            var reportService = new ReportService(mockMapper.Object, mockRepository.Object);
+
+            // Act
+            var result = await reportService.CreateAsync(reportCreateDto);
+
+            // Assert
+            Assert.True(result.IsSuccessful);
+            Assert.NotNull(result.Data);
+            Assert.Equal(1, result.Data.Id);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_ValidDto_ShouldUpdateReport()
+        {
+            // Arrange
+            var mockRepository = new Mock<IReportRepository>();
+            var mockMapper = new Mock<IMapper>();
+            var reportUpdateDto = new ReportUpdateDto { Id = 1, ReportName = "Updated Report", Status = "Tamamlandı" };
+
+            mockRepository.Setup(repo => repo.Update(It.IsAny<Models.Report>())).ReturnsAsync(1);
+
+            mockMapper.Setup(mapper => mapper.Map<Models.Report>(It.IsAny<ReportUpdateDto>()))
+                      .Returns((ReportUpdateDto dto) => new Models.Report { Id = dto.Id, ReportName = dto.ReportName, RequestDate = DateTime.Now, Status = dto.Status });
+
+            var reportService = new ReportService(mockMapper.Object, mockRepository.Object);
+
+            // Act
+            var result = await reportService.UpdateAsync(reportUpdateDto);
+
+            // Assert
+            Assert.True(result.IsSuccessful);
+        }
+
+        [Fact]
+        public async Task DeleteAsync_ExistingId_ShouldDeleteReport()
+        {
+            // Arrange
+            var mockRepository = new Mock<IReportRepository>();
+            var mockMapper = new Mock<IMapper>();
+
+            mockRepository.Setup(repo => repo.Delete(1)).ReturnsAsync(1);
+
+            var reportService = new ReportService(mockMapper.Object, mockRepository.Object);
+
+            // Act
+            var result = await reportService.DeleteAsync(1);
+
+            // Assert
+            Assert.True(result.IsSuccessful);
+        }
+
+
+
+
     }
 }

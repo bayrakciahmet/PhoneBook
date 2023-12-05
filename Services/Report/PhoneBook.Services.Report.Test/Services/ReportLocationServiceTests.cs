@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Moq;
-using PhoneBook.Services.Report.Repositories.ReportLocation;
-using PhoneBook.Services.Report.Services.ReportLocation;
+using PhoneBook.Services.Report.Repositories.Interfaces;
+using PhoneBook.Services.Report.Services.Interfaces.Implementations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,14 +33,12 @@ namespace PhoneBook.Services.Report.Test.Services
         {
             new Models.ReportLocation { Id = 1, ReportId = fakeReportId, LocationName = "Konya", PersonCount = 10, PhoneNumberCount = 5 },
             new Models.ReportLocation { Id = 2, ReportId = fakeReportId, LocationName = "Ankara", PersonCount = 15, PhoneNumberCount = 8 }
-            // Add more fake report locations as needed
         };
 
             var fakeMappedReportLocations = new List<Models.ReportLocation>
         {
             new Models.ReportLocation { Id = 1, ReportId = fakeReportId, LocationName = "Konya", PersonCount = 10, PhoneNumberCount = 5 },
             new Models.ReportLocation { Id = 2, ReportId = fakeReportId, LocationName = "Ankara", PersonCount = 15, PhoneNumberCount = 8 }
-            // Create corresponding fake DTOs
         };
 
             _mockReportLocationRepository.Setup(repo => repo.GetAllByReportId(fakeReportId)).ReturnsAsync(fakeReportLocations);

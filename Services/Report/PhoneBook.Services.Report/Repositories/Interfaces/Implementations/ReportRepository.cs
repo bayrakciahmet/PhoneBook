@@ -1,8 +1,9 @@
 ﻿using Dapper;
 using Microsoft.EntityFrameworkCore;
+using PhoneBook.Services.Report.Repositories.Interfaces;
 using System.Data;
 
-namespace PhoneBook.Services.Report.Repositories.Report
+namespace PhoneBook.Services.Report.Repositories.Interfaces.Implementations
 {
     public class ReportRepository : IReportRepository
     {

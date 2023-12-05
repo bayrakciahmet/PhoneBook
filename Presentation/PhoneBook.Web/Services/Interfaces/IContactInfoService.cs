@@ -1,6 +1,6 @@
 ﻿using PhoneBook.Web.Models.ContactInfos;
 
-namespace PhoneBook.Web.Services.ContactInfo
+namespace PhoneBook.Web.Services.Interfaces
 {
     public interface IContactInfoService
     {

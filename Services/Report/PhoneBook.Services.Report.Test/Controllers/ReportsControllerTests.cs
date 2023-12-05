@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using PhoneBook.Services.Report.Controllers;
 using PhoneBook.Services.Report.Dtos;
-using PhoneBook.Services.Report.Services.Report;
+using PhoneBook.Services.Report.Services.Interfaces;
 using PhoneBook.Shared.Dtos;
 namespace PhoneBook.Services.Report.Test.Controllers
 {
@@ -15,9 +15,8 @@ namespace PhoneBook.Services.Report.Test.Controllers
             // Arrange
             var fakeReports = new List<ReportDto>
         {
-            new ReportDto { Id = 1, ReportName = "Report 1", RequestDate = DateTime.Now, Status = "Completed" },
-            new ReportDto { Id = 2, ReportName = "Report 2", RequestDate = DateTime.Now, Status = "InProgress" }
-            // Add more fake reports as needed
+            new ReportDto { Id = 1, ReportName = "Report 1", RequestDate = DateTime.Now, Status = "Tamamlandı" },
+            new ReportDto { Id = 2, ReportName = "Report 2", RequestDate = DateTime.Now, Status = "Hazırlanıyor" }
         };
 
             var mockService = new Mock<IReportService>();
@@ -61,7 +60,7 @@ namespace PhoneBook.Services.Report.Test.Controllers
         {
             // Arrange
             var fakeReportId = 1;
-            var fakeReport = new ReportDto { Id = fakeReportId, ReportName = "Report 1", RequestDate = DateTime.Now, Status = "Completed" };
+            var fakeReport = new ReportDto { Id = fakeReportId, ReportName = "Report 1", RequestDate = DateTime.Now, Status = "Tamamlandı" };
 
             var mockService = new Mock<IReportService>();
             mockService.Setup(service => service.GetByIdAsync(fakeReportId)).ReturnsAsync(Response<ReportDto>.Success(fakeReport, 200));
@@ -108,7 +107,7 @@ namespace PhoneBook.Services.Report.Test.Controllers
         public async Task Update_ShouldReturnNoContent_WhenServiceUpdatesReport()
         {
             // Arrange
-            var fakeReportUpdateDto = new ReportUpdateDto { Id = 1, ReportName = "Updated Report", Status = "Completed" };
+            var fakeReportUpdateDto = new ReportUpdateDto { Id = 1, ReportName = "Updated Report", Status = "Tammalandı" };
 
             var mockService = new Mock<IReportService>();
             mockService.Setup(service => service.UpdateAsync(fakeReportUpdateDto)).ReturnsAsync(Response<NoContent>.Success(204));

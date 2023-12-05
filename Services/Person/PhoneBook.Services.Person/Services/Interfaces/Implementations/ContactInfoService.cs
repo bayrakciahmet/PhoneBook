@@ -1,20 +1,18 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http.HttpResults;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using PhoneBook.Services.Person.Dtos.ContactInfos;
-using PhoneBook.Services.Person.Dtos.Persons;
 using PhoneBook.Services.Person.Models;
 using PhoneBook.Services.Person.Settings.Interfaces;
 using PhoneBook.Shared.Dtos;
 
-namespace PhoneBook.Services.Person.Services.ContactInfos
+namespace PhoneBook.Services.Person.Services.Interfaces.Implementations
 {
     public class ContactInfoService : IContactInfoService
     {
         // private readonly IMongoCollection<Models.Person> _personCollection;
 
-        private readonly IMongoCollection<Models.ContactInfo> _contactInfoCollection;
+        private readonly IMongoCollection<ContactInfo> _contactInfoCollection;
 
         private readonly IMapper _mapper;
         public ContactInfoService(IMapper mapper, IDatabaseSettings databaseSettings)
@@ -24,7 +22,7 @@ namespace PhoneBook.Services.Person.Services.ContactInfos
             var database = client.GetDatabase(databaseSettings.DatabaseName);
 
             //_personCollection = database.GetCollection<Models.Person>(databaseSettings.PersonCollectionName);
-            _contactInfoCollection = database.GetCollection<Models.ContactInfo>(databaseSettings.ContactInfoCollectionName);
+            _contactInfoCollection = database.GetCollection<ContactInfo>(databaseSettings.ContactInfoCollectionName);
             _mapper = mapper;
         }
 
@@ -33,7 +31,7 @@ namespace PhoneBook.Services.Person.Services.ContactInfos
             var contactInfos = await _contactInfoCollection.Find(x => true).ToListAsync();
             if (!contactInfos.Any())
             {
-                contactInfos = new List<Models.ContactInfo>();
+                contactInfos = new List<ContactInfo>();
             }
 
             return Response<List<ContactInfoDto>>.Success(_mapper.Map<List<ContactInfoDto>>(contactInfos), 200);
@@ -41,17 +39,17 @@ namespace PhoneBook.Services.Person.Services.ContactInfos
 
         public async Task<Response<ContactInfoDto>> GetByIdAsync(string id)
         {
-            var contactInfos = await _contactInfoCollection.Find<Models.ContactInfo>(x => x.UUID == id).FirstOrDefaultAsync();
+            var contactInfos = await _contactInfoCollection.Find(x => x.UUID == id).FirstOrDefaultAsync();
             if (contactInfos == null)
             {
-                contactInfos = new Models.ContactInfo();
+                contactInfos = new ContactInfo();
             }
             return Response<ContactInfoDto>.Success(_mapper.Map<ContactInfoDto>(contactInfos), 200);
         }
 
         public async Task<Response<List<ContactInfoDto>>> GetAllByPersonIdAsync(string personId)
         {
-            var contactInfos = await _contactInfoCollection.Find<ContactInfo>(x => x.PersonId == personId).ToListAsync();
+            var contactInfos = await _contactInfoCollection.Find(x => x.PersonId == personId).ToListAsync();
             if (!contactInfos.Any())
             {
                 contactInfos = new List<ContactInfo>();
@@ -61,7 +59,7 @@ namespace PhoneBook.Services.Person.Services.ContactInfos
 
         public async Task<Response<ContactInfoDto>> CreateAsync(ContactInfoCreateDto contactInfoCreateDto)
         {
-            var newContactInfo = _mapper.Map<Models.ContactInfo>(contactInfoCreateDto);
+            var newContactInfo = _mapper.Map<ContactInfo>(contactInfoCreateDto);
             newContactInfo.ModifiedTime = DateTime.Now;
             await _contactInfoCollection.InsertOneAsync(newContactInfo);
 
@@ -70,7 +68,7 @@ namespace PhoneBook.Services.Person.Services.ContactInfos
 
         public async Task<Response<NoContent>> UpdateAsync(ContactInfoUpdateDto contactInfoUpdate)
         {
-            var updateContactInfo = _mapper.Map<Models.ContactInfo>(contactInfoUpdate);
+            var updateContactInfo = _mapper.Map<ContactInfo>(contactInfoUpdate);
             updateContactInfo.ModifiedTime = DateTime.Now;
             var result = await _contactInfoCollection.FindOneAndReplaceAsync(x => x.UUID == contactInfoUpdate.UUID, updateContactInfo);
             if (result == null)

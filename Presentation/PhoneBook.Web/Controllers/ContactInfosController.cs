@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PhoneBook.Web.Models.ContactInfos;
-using PhoneBook.Web.Services.ContactInfo;
-using PhoneBook.Web.Services.Person;
+using PhoneBook.Web.Services.Interfaces;
 
 namespace PhoneBook.Web.Controllers
 {

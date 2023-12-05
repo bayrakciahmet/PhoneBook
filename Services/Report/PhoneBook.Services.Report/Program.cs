@@ -1,12 +1,13 @@
 using Dapper;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using Npgsql;
 using PhoneBook.Services.Report.Consumers;
-using PhoneBook.Services.Report.Repositories.Report;
-using PhoneBook.Services.Report.Repositories.ReportLocation;
-using PhoneBook.Services.Report.Services.Report;
-using PhoneBook.Services.Report.Services.ReportLocation;
+using PhoneBook.Services.Report.Repositories.Interfaces;
+using PhoneBook.Services.Report.Repositories.Interfaces.Implementations;
+using PhoneBook.Services.Report.Services.Interfaces;
+using PhoneBook.Services.Report.Services.Interfaces.Implementations;
 using System.Data;
 using System.Reflection;
 
@@ -15,8 +16,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Report API", Version = "v1" });
+});
 builder.Services.AddScoped<IDbConnection>(provider =>
 {
     var configuration = provider.GetRequiredService<IConfiguration>();
@@ -57,7 +61,10 @@ if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Report API V1");
+    });
 }
 app.MapControllers();
 app.Run();

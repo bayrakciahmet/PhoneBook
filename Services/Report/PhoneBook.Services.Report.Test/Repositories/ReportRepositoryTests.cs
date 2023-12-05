@@ -1,5 +1,5 @@
 ﻿using Moq;
-using PhoneBook.Services.Report.Repositories.Report;
+using PhoneBook.Services.Report.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,9 +16,8 @@ namespace PhoneBook.Services.Report.Test.Repositories
             // Arrange
             var fakeReports = new List<Models.Report>
         {
-            new Models.Report { Id = 1, ReportName = "Report 1", Status = "Completed" },
-            new Models.Report { Id = 2, ReportName = "Report 2", Status = "InProgress" }
-            // Add more fake reports as needed
+            new Models.Report { Id = 1, ReportName = "Rapor 1", Status = "Tamamlandı" },
+            new Models.Report { Id = 2, ReportName = "Rapor 2", Status = "InProgress" }
         };
 
             var mockRepo = new Mock<IReportRepository>();
@@ -38,7 +37,7 @@ namespace PhoneBook.Services.Report.Test.Repositories
         {
             // Arrange
             var fakeReportId = 1;
-            var fakeReport = new Models.Report { Id = fakeReportId, ReportName = "Report 1", Status = "Completed" };
+            var fakeReport = new Models.Report { Id = fakeReportId, ReportName = "Rapor 1", Status = "Tamamlandı" };
 
             var mockRepo = new Mock<IReportRepository>();
             mockRepo.Setup(repo => repo.GetById(fakeReportId)).ReturnsAsync(fakeReport);
@@ -56,7 +55,7 @@ namespace PhoneBook.Services.Report.Test.Repositories
         public async Task Create_ShouldReturnInsertedId_WhenReportIsCreated()
         {
             // Arrange
-            var fakeReport = new Models.Report { ReportName = "New Report", Status = "InProgress" };
+            var fakeReport = new Models.Report { ReportName = "Yeni Rapor", Status = "InProgress" };
             var fakeInsertedId = 1;
 
             var mockRepo = new Mock<IReportRepository>();
@@ -73,7 +72,7 @@ namespace PhoneBook.Services.Report.Test.Repositories
         public async Task Update_ShouldReturnAffectedRows_WhenReportIsUpdated()
         {
             // Arrange
-            var fakeReport = new Models.Report { Id = 1, ReportName = "Updated Report", Status = "Completed" };
+            var fakeReport = new Models.Report { Id = 1, ReportName = "Updated Rapor", Status = "Tamamlandı" };
             var fakeAffectedRows = 1;
 
             var mockRepo = new Mock<IReportRepository>();

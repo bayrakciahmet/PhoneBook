@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PhoneBook.Web.Models.ContactInfos;
 using PhoneBook.Web.Models.Reports;
-using PhoneBook.Web.Services.Report;
+using PhoneBook.Web.Services.Interfaces;
 
 namespace PhoneBook.Web.Controllers
 {

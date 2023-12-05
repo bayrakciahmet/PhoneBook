@@ -2,7 +2,7 @@
 using PhoneBook.Services.Report.Dtos;
 using PhoneBook.Shared.Dtos;
 
-namespace PhoneBook.Services.Report.Services.Report
+namespace PhoneBook.Services.Report.Services.Interfaces
 {
     public interface IReportService
     {

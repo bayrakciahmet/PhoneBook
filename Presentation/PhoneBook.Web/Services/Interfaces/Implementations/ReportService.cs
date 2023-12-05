@@ -1,7 +1,8 @@
 ﻿using PhoneBook.Shared.Dtos;
 using PhoneBook.Web.Models.Reports;
+using PhoneBook.Web.Services.Interfaces;
 
-namespace PhoneBook.Web.Services.Report
+namespace PhoneBook.Web.Services.Interfaces.Implementations
 {
     public class ReportService : IReportService
     {
@@ -37,12 +38,12 @@ namespace PhoneBook.Web.Services.Report
 
         public async Task<bool> CreateReportAsync(ReportCreateInput reportCreateInput)
         {
-            var response = await _client.PostAsJsonAsync<ReportCreateInput>("reports", reportCreateInput);
+            var response = await _client.PostAsJsonAsync("reports", reportCreateInput);
             return response.IsSuccessStatusCode;
         }
         public async Task<bool> UpdateReportAsync(ReportUpdateInput reportUpdateInput)
         {
-            var response = await _client.PutAsJsonAsync<ReportUpdateInput>("reports", reportUpdateInput);
+            var response = await _client.PutAsJsonAsync("reports", reportUpdateInput);
             return response.IsSuccessStatusCode;
         }
         public async Task<bool> DeleteReportAsync(string reportId)

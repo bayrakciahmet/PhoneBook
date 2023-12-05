@@ -1,4 +1,4 @@
-﻿namespace PhoneBook.Services.Report.Repositories.ReportLocation
+﻿namespace PhoneBook.Services.Report.Repositories.Interfaces
 {
     public interface IReportLocationRepository
     {

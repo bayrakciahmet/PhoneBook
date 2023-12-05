@@ -3,13 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using PhoneBook.Services.Person.Controllers;
 using PhoneBook.Services.Person.Dtos.Persons;
-using PhoneBook.Services.Person.Services.Persons;
+using PhoneBook.Services.Person.Services.Interfaces;
 using PhoneBook.Shared.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PhoneBook.Services.Person.Test.Controllers
 {
