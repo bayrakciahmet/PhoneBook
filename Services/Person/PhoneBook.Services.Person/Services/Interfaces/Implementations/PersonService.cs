@@ -64,7 +64,9 @@ namespace PhoneBook.Services.Person.Services.Interfaces.Implementations
         public async Task<Response<NoContent>> UpdateAsync(PersonUpdateDto personUpdateDto)
         {
             var updatePerson = _mapper.Map<Models.Person>(personUpdateDto);
-
+            var persons = _personCollection.Find(x => x.UUID == updatePerson.UUID).FirstOrDefault();
+            if (persons != null)
+                updatePerson.CreatedTime = persons.CreatedTime;
             var result = await _personCollection.FindOneAndReplaceAsync(x => x.UUID == personUpdateDto.UUID, updatePerson);
             if (result == null)
             {
