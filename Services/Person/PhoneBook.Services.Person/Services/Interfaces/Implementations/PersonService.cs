@@ -81,6 +81,7 @@ namespace PhoneBook.Services.Person.Services.Interfaces.Implementations
             var result = await _personCollection.DeleteOneAsync(x => x.UUID == id);
             if (result.DeletedCount > 0)
             {
+                var resultContactInfo = await _contactInfoCollection.DeleteOneAsync(x => x.PersonId == id);
                 return Response<NoContent>.Success(204);
             }
             else
