@@ -34,7 +34,7 @@ Mikroservisler
 
   PhoneBook.Services.Report/Controllers/ReportsController içerisinde Create Methodunda MassTransit ile "queue:create-report-service" kuyruğuna mesaj bırakılarak, 
   PhoneBook.Services.Report/Consumers/CreateReportMessageCommandConsumer.cs içerisinde bırakılan mesajların sırayla dinlenmesi sağlanmıştır.
-  CreateReportMessageCommandConsumer sınıfı içerisinde PhoneBook.Services.Person servisi ile Gateway üzerinden iletişim kurularak raporun gerekli bilgileri alınır.
+  CreateReportMessageCommandConsumer sınıfı içerisinde PhoneBook.Services.Person servisi ile Gateway üzerinden iletişim kurularak raporun detay bilgileri alınır.
 
 
 =>PhoneBook.Gateway
