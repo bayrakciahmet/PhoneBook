@@ -58,7 +58,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Production
       
     ports:
-      - "6000:80"
+      - "6001:80"
   aspnetcoremvc.web:
     container_name: aspnetcoremvc.web
     environment:

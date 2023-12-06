@@ -19,7 +19,7 @@ namespace PhoneBook.Services.Report.Consumers
         public async Task Consume(ConsumeContext<CreateReportMessageCommand> context)
         {
             var client = new HttpClient();
-            var response = await client.GetAsync($"{_configuration["ApiGatewayUrl"]}/services/person/ContactInfos/GetReport");
+            var response = await client.GetAsync($"{_configuration["ApiGatewayUrl"]}/person/api/ContactInfos/GetReport");
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadFromJsonAsync<Shared.Dtos.Response<List<Models.ReportLocation>>>();
