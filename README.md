@@ -11,9 +11,9 @@ Services
   
   -reportApi => http://localhost:6012/swagger/index.html
   
-Gateway => http://localhost:6000/
-  Gateway üzerinde swagger bulunmamaktadır.
-  PhoneBook.Gateway/configuration.production.json route yapılanması
+Gateway => http://localhost:6001/swagger/index.html
+  Gateway üzerine swagger konfigürasyonu eklenmiştir.
+  PhoneBook.Gateway/configuration.production.json Routes ve SwaggerEndPoints.
   
 Web => http://localhost:6010/
 

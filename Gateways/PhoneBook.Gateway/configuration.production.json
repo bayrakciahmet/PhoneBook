@@ -1,7 +1,7 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamPathTemplate": "/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -9,12 +9,13 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/services/person/{everything}",
+      "UpstreamPathTemplate": "/person/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
-      "UpstreamScheme": "http"
+      "UpstreamScheme": "http",
+      "SwaggerKey": "person"
     },
     {
-      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamPathTemplate": "/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -22,12 +23,37 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/services/report/{everything}",
+      "UpstreamPathTemplate": "/report/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
-      "UpstreamScheme": "http"
+      "UpstreamScheme": "http",
+      "SwaggerKey": "report"
     }
   ],
   "GlobalConfiguration": {
     "BaseUrl": "http://gateway.api"
-  }
+  },
+  "SwaggerEndPoints": [
+    {
+      "Key": "person",
+      "TransformByOcelotConfig": true,
+      "Config": [
+        {
+          "Name": "Person API",
+          "Version": "v1",
+          "Url": "http://gateway.api/person/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "report",
+      "TransformByOcelotConfig": true,
+      "Config": [
+        {
+          "Name": "Report API",
+          "Version": "v1",
+          "Url": "http://gateway.api/report/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ]
 }
