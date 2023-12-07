@@ -40,15 +40,15 @@ namespace PhoneBook.Services.Report.Controllers
         {
             reportCreateDto.Status = "Hazırlanıyor";
             var report = await _reportService.CreateAsync(reportCreateDto);
-            var sendEndpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("queue:create-report-service"));
-
-            CreateReportMessageCommand createReportMessageCommand = new CreateReportMessageCommand()
+            if (report.IsSuccessful==true)
             {
-                ReportId = report.Data.Id
-            };
-            await sendEndpoint.Send<CreateReportMessageCommand>(createReportMessageCommand);
-
-
+                var sendEndpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("queue:create-report-service"));
+                CreateReportMessageCommand createReportMessageCommand = new CreateReportMessageCommand()
+                {
+                    ReportId = report.Data.Id
+                };
+                await sendEndpoint.Send<CreateReportMessageCommand>(createReportMessageCommand);
+            }            
             return CreateActionResultInstance(report);
         }
 

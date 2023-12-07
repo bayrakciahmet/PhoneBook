@@ -1,4 +1,5 @@
 using Dapper;
+using FluentValidation;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -8,6 +9,7 @@ using PhoneBook.Services.Report.Repositories.Interfaces;
 using PhoneBook.Services.Report.Repositories.Interfaces.Implementations;
 using PhoneBook.Services.Report.Services.Interfaces;
 using PhoneBook.Services.Report.Services.Interfaces.Implementations;
+using PhoneBook.Services.Report.Validators;
 using System.Data;
 using System.Reflection;
 
@@ -35,6 +37,8 @@ builder.Services.AddScoped<IReportLocationService, ReportLocationService>();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddControllers();
+builder.Services.AddValidatorsFromAssemblyContaining<ReportCreateDtoValidator>()
+                .AddValidatorsFromAssemblyContaining<ReportUpdateDtoValidator>();
 
 builder.Services.AddMassTransit(x =>
 {
