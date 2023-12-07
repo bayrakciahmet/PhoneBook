@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Http.HttpResults;
 using MongoDB.Driver;
 using PhoneBook.Services.Person.Dtos.ContactInfos;
+using PhoneBook.Services.Person.Dtos.Persons;
 using PhoneBook.Services.Person.Models;
 using PhoneBook.Services.Person.Settings.Interfaces;
+using PhoneBook.Services.Person.Validators.ContactInfos;
 using PhoneBook.Shared.Dtos;
 
 namespace PhoneBook.Services.Person.Services.Interfaces.Implementations
@@ -15,7 +18,11 @@ namespace PhoneBook.Services.Person.Services.Interfaces.Implementations
         private readonly IMongoCollection<ContactInfo> _contactInfoCollection;
 
         private readonly IMapper _mapper;
-        public ContactInfoService(IMapper mapper, IDatabaseSettings databaseSettings)
+        private IValidator<ContactInfoCreateDto> _contactInfoCreateDtoValidator;
+        private IValidator<ContactInfoUpdateDto> _contactInfoUpdateDtoValidator;
+        public ContactInfoService(IMapper mapper, IDatabaseSettings databaseSettings, 
+            IValidator<ContactInfoUpdateDto> contactInfoUpdateDtoValidator, 
+            IValidator<ContactInfoCreateDto> contactInfoCreateDtoValidator)
         {
 
             var client = new MongoClient(databaseSettings.ConnectionString);
@@ -24,6 +31,8 @@ namespace PhoneBook.Services.Person.Services.Interfaces.Implementations
             //_personCollection = database.GetCollection<Models.Person>(databaseSettings.PersonCollectionName);
             _contactInfoCollection = database.GetCollection<ContactInfo>(databaseSettings.ContactInfoCollectionName);
             _mapper = mapper;
+            _contactInfoUpdateDtoValidator = contactInfoUpdateDtoValidator;
+            _contactInfoCreateDtoValidator = contactInfoCreateDtoValidator;
         }
 
         public async Task<Response<List<ContactInfoDto>>> GetAllAsync()
@@ -59,15 +68,26 @@ namespace PhoneBook.Services.Person.Services.Interfaces.Implementations
 
         public async Task<Response<ContactInfoDto>> CreateAsync(ContactInfoCreateDto contactInfoCreateDto)
         {
+            var validationResult = await _contactInfoCreateDtoValidator.ValidateAsync(contactInfoCreateDto);
+            if (!validationResult.IsValid)
+            {
+                var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
+                return Response<ContactInfoDto>.Fail(errors, 400);
+            }
             var newContactInfo = _mapper.Map<ContactInfo>(contactInfoCreateDto);
             newContactInfo.ModifiedTime = DateTime.Now;
             await _contactInfoCollection.InsertOneAsync(newContactInfo);
-
             return Response<ContactInfoDto>.Success(_mapper.Map<ContactInfoDto>(newContactInfo), 200);
         }
 
         public async Task<Response<NoContent>> UpdateAsync(ContactInfoUpdateDto contactInfoUpdate)
         {
+            var validationResult = await _contactInfoUpdateDtoValidator.ValidateAsync(contactInfoUpdate);
+            if (!validationResult.IsValid)
+            {
+                var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
+                return Response<NoContent>.Fail(errors, 400);
+            }
             var updateContactInfo = _mapper.Map<ContactInfo>(contactInfoUpdate);
             updateContactInfo.ModifiedTime = DateTime.Now;
             var result = await _contactInfoCollection.FindOneAndReplaceAsync(x => x.UUID == contactInfoUpdate.UUID, updateContactInfo);
@@ -95,7 +115,6 @@ namespace PhoneBook.Services.Person.Services.Interfaces.Implementations
             var distinctLocations = await _contactInfoCollection
             .Distinct<string>("InfoContent", Builders<ContactInfo>.Filter.Eq("InfoType", "Konum"))
             .ToListAsync();
-
             List<Dtos.Report.ReportDto> reportdtos = new List<Dtos.Report.ReportDto>();
             foreach (var location in distinctLocations)
             {

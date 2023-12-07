@@ -1,11 +1,14 @@
+using FluentValidation;
 using Microsoft.Extensions.Options;
-using PhoneBook.Services.Person.Settings.Interfaces;
-using PhoneBook.Services.Person.Settings;
-using System.Reflection;
-using PhoneBook.Services.Person.Dtos.Persons;
 using Microsoft.OpenApi.Models;
+using PhoneBook.Services.Person.Dtos.Persons;
 using PhoneBook.Services.Person.Services.Interfaces;
 using PhoneBook.Services.Person.Services.Interfaces.Implementations;
+using PhoneBook.Services.Person.Settings;
+using PhoneBook.Services.Person.Settings.Interfaces;
+using PhoneBook.Services.Person.Validators.ContactInfos;
+using PhoneBook.Services.Person.Validators.Persons;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +39,11 @@ builder.Services.AddSingleton<IDatabaseSettings>(sp =>
 
 
 builder.Services.AddControllers();
+builder.Services.AddValidatorsFromAssemblyContaining<PersonCreateDtoValidator>()
+                .AddValidatorsFromAssemblyContaining<PersonUpdateDtoValidator>()
+                .AddValidatorsFromAssemblyContaining<ContactInfoCreateDtoValidator>()
+                .AddValidatorsFromAssemblyContaining<ContactInfoUpdateDtoValidator>();
+
 var app = builder.Build();
 
 #region MongoDb_IsNull_Set_Default_Value
