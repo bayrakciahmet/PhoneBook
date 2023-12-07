@@ -2,10 +2,10 @@
 {
     public class ContactInfoCreateDto
     {
-        public string? PersonId { get; set; }
+        public string PersonId { get; set; }
 
-        public string? InfoType { get; set; }
+        public string InfoType { get; set; }
 
-        public string? InfoContent { get; set; }
+        public string InfoContent { get; set; }
     }
 }
