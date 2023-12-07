@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using PhoneBook.Services.Report.Dtos;
 using PhoneBook.Services.Report.Repositories.Interfaces;
 using PhoneBook.Services.Report.Services.Interfaces.Implementations;
+using PhoneBook.Services.Report.Validators;
 
 namespace PhoneBook.Services.Report.Test.Services
 {
@@ -12,11 +14,15 @@ namespace PhoneBook.Services.Report.Test.Services
         private readonly Mock<IReportRepository> _mockReportRepository;
         private readonly Mock<IMapper> _mockMapper;
         private readonly ReportService _reportService;
+        private readonly IValidator<ReportCreateDto> _reportCreateDtoValidator;
+        private readonly IValidator<ReportUpdateDto> _reportUpdateDtoValidator;
         public ReportServiceTests()
         {
             _mockReportRepository = new Mock<IReportRepository>();
             _mockMapper = new Mock<IMapper>();
-            _reportService = new ReportService(_mockMapper.Object, _mockReportRepository.Object);
+            _reportCreateDtoValidator = new ReportCreateDtoValidator();
+            _reportUpdateDtoValidator = new ReportUpdateDtoValidator();
+            _reportService = new ReportService(_mockMapper.Object, _mockReportRepository.Object, _reportCreateDtoValidator, _reportUpdateDtoValidator);
         }
 
         [Fact]
@@ -116,7 +122,7 @@ namespace PhoneBook.Services.Report.Test.Services
             mockMapper.Setup(mapper => mapper.Map<List<ReportDto>>(It.IsAny<List<Models.Report>>()))
                       .Returns((List<Models.Report> reports) => reports.Select(r => new ReportDto { Id = r.Id }).ToList());
 
-            var reportService = new ReportService(mockMapper.Object, mockRepository.Object);
+            var reportService = new ReportService(mockMapper.Object, mockRepository.Object, _reportCreateDtoValidator, _reportUpdateDtoValidator);
 
             // Act
             var result = await reportService.GetAllAsync();
@@ -139,7 +145,7 @@ namespace PhoneBook.Services.Report.Test.Services
             mockMapper.Setup(mapper => mapper.Map<ReportDto>(It.IsAny<Models.Report>()))
                       .Returns((Models.Report report) => new ReportDto { Id = report.Id });
 
-            var reportService = new ReportService(mockMapper.Object, mockRepository.Object);
+            var reportService = new ReportService(mockMapper.Object, mockRepository.Object, _reportCreateDtoValidator, _reportUpdateDtoValidator);
 
             // Act
             var result = await reportService.GetByIdAsync(1);
@@ -163,7 +169,7 @@ namespace PhoneBook.Services.Report.Test.Services
             mockMapper.Setup(mapper => mapper.Map<Models.Report>(It.IsAny<ReportCreateDto>()))
                       .Returns((ReportCreateDto dto) => new Models.Report { Id = 1, ReportName = dto.ReportName, RequestDate = DateTime.Now, Status = dto.Status });
 
-            var reportService = new ReportService(mockMapper.Object, mockRepository.Object);
+            var reportService = new ReportService(mockMapper.Object, mockRepository.Object, _reportCreateDtoValidator, _reportUpdateDtoValidator);
 
             // Act
             var result = await reportService.CreateAsync(reportCreateDto);
@@ -187,7 +193,7 @@ namespace PhoneBook.Services.Report.Test.Services
             mockMapper.Setup(mapper => mapper.Map<Models.Report>(It.IsAny<ReportUpdateDto>()))
                       .Returns((ReportUpdateDto dto) => new Models.Report { Id = dto.Id, ReportName = dto.ReportName, RequestDate = DateTime.Now, Status = dto.Status });
 
-            var reportService = new ReportService(mockMapper.Object, mockRepository.Object);
+            var reportService = new ReportService(mockMapper.Object, mockRepository.Object, _reportCreateDtoValidator, _reportUpdateDtoValidator);
 
             // Act
             var result = await reportService.UpdateAsync(reportUpdateDto);
@@ -205,7 +211,7 @@ namespace PhoneBook.Services.Report.Test.Services
 
             mockRepository.Setup(repo => repo.Delete(1)).ReturnsAsync(1);
 
-            var reportService = new ReportService(mockMapper.Object, mockRepository.Object);
+            var reportService = new ReportService(mockMapper.Object, mockRepository.Object, _reportCreateDtoValidator, _reportUpdateDtoValidator);
 
             // Act
             var result = await reportService.DeleteAsync(1);

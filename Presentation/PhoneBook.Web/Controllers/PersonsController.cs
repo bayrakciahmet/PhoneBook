@@ -20,14 +20,14 @@ namespace PhoneBook.Web.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            return View(new PersonCreateInput());
         }
         [HttpPost]
         public async Task<IActionResult> Create(PersonCreateInput personCreateInput)
         {
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(personCreateInput);
             }
             await _personService.CreatePersonAsync(personCreateInput);
             return RedirectToAction(nameof(Index));
