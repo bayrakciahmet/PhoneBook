@@ -47,9 +47,9 @@
                                 <td>
                                     <a class="font-medium whitespace-nowrap">@item.ContactInfoCount</a>
                                 </td>
-                                <td class="table-report__action w-56">
+                                <td class="table-report__action w-56" style="width:265px;">
                                     <div class="flex justify-center items-center">
-                                        <a asp-action="Update" asp-controller="Persons" asp-route-id="@item.UUID" class="flex items-center mr-3"> <i data-lucide="check-square" class="w-4 h-4 mr-1"></i> Düzenle </a>
+                                        <a asp-action="Update" asp-controller="Persons" asp-route-id="@item.UUID" class="flex items-center mr-3"> <i data-lucide="check-square" class="w-4 h-4 mr-1"></i> Düzenle / İletişim Bilgileri</a>
                                         <a data-action="@Url.Action("Delete", "Persons", new { id = item.UUID })" class="delete-btn flex items-center text-danger" href="javascript:;" data-tw-toggle="modal" data-tw-target="#delete-confirmation-modal"> <i data-lucide="trash-2" class="w-4 h-4 mr-1"></i> Sil </a>
                                     </div>
                                 </td>
