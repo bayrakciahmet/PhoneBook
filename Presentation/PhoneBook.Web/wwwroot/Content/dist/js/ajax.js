@@ -1,9 +1,8 @@
 ﻿$(document).ready(function () {
     $(document).on('submit', '.ajax-form', function (event) {
-        LoadingPanelMain.Show();
         var $form = $(this);
         var grid = window[$(this).data('grid')];
-        var popupItem = window[$(this).data('popup')];
+        var popupItem = $(this).data('popup');
         var functionName = window[$(this).data('function')];
         var $frmData = $form.serialize();
         $.ajax({
@@ -20,7 +19,6 @@
                 var url = result.url;
                 var modal = result.modal;
                 var urlTime = result.urlTime;
-                var smsPage = result.smsPage;
                 var popup = result.popup;
                 var newTap = result.newTap;
                 var resultFunctionName = window[result.functionName];
@@ -29,25 +27,17 @@
                 if (result.error) {
                     toastr.error(error, title);
                 }
-
                 else if (urlTime) {
                     toastr.success(info, title);
                     setTimeout(function () {
                         location.href = url;
                     }, 700);
                 }
-                else if (smsPage) {
-                    toastr.success(info, title);
-                    if (smsPage) {
-                        forgetPassword();
-                    }
-                }
                 else if (info) {
                     toastr.success(info, title);
                     if (grid) {
-                        grid.Refresh();
+                        grid();
                     }
-
                 }
                 else if (url) {
                     if (newTap) {
@@ -56,24 +46,17 @@
                     else {
                         location.href = url;
                     }
-
-                }
-                else if (modal) {
-                    $form.closest(".modal").modal('hide');
-                    toastr.success(info, title);
                 }
                 else if (title) {
                     toastr.success(info, title);
                 }
                 if (popup) {
                     if (popupItem) {
-                        popupItem.Hide();
-                        if (Id) {
-                            openPopup(Id, popupItem);
-                        }
+                        var el = document.querySelector("#" + popupItem);
+                        var modal = tailwind.Modal.getOrCreateInstance(el);
+                        modal.hide();                        
                     }                 
-                }
-                
+                }       
                 if (functionName) {
                     functionName();
                 }
@@ -81,12 +64,8 @@
                     window[resultFunctionName];
                     resultFunctionName();
                 }
-                if (result.CustomerId) {
-                    //CustomerId.SetValue(result.CustomerId);                  
-                }
             },
             complete: function () {
-                LoadingPanelMain.Hide();
             }
         });
         return false;
