@@ -1,7 +1,6 @@
-﻿using PhoneBook.Shared.Dtos;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using PhoneBook.Shared.Dtos;
 using PhoneBook.Web.Models.ContactInfos;
-using PhoneBook.Web.Services.Interfaces;
-using System.Net.Http.Json;
 
 namespace PhoneBook.Web.Services.Interfaces.Implementations
 {
@@ -12,7 +11,6 @@ namespace PhoneBook.Web.Services.Interfaces.Implementations
         {
             _client = client;
         }
-
 
         public async Task<List<ContactInfoViewModel>> GetAllContactInfoAsync()
         {
@@ -46,15 +44,22 @@ namespace PhoneBook.Web.Services.Interfaces.Implementations
             return responseSuccess.Data;
         }
 
-        public async Task<bool> CreateContactInfoAsync(ContactInfoCreateInput contactInfoCreateInput)
+        public async Task<Response<ContactInfoViewModel>> CreateContactInfoAsync(ContactInfoCreateInput contactInfoCreateInput)
         {
             var response = await _client.PostAsJsonAsync("contactinfos", contactInfoCreateInput);
-            return response.IsSuccessStatusCode;
+            var responseData = await response.Content.ReadFromJsonAsync<Response<ContactInfoViewModel>>();
+            return responseData;
         }
-        public async Task<bool> UpdateContactInfoAsync(ContactInfoUpdateInput contactInfoUpdateInput)
+        public async Task<Response<NoContent>> UpdateContactInfoAsync(ContactInfoUpdateInput contactInfoUpdateInput)
         {
             var response = await _client.PutAsJsonAsync("contactinfos", contactInfoUpdateInput);
-            return response.IsSuccessStatusCode;
+            if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                return new Response<NoContent>() { IsSuccessful = true };
+            else
+            {
+                var responseData = await response.Content.ReadFromJsonAsync<Response<NoContent>>();
+                return responseData;
+            }
         }
         public async Task<bool> DeleteContactInfoAsync(string id)
         {

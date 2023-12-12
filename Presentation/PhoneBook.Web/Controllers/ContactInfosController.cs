@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PhoneBook.Web.Extensions;
+using PhoneBook.Web.Helpers;
 using PhoneBook.Web.Models.ContactInfos;
 using PhoneBook.Web.Services.Interfaces;
 
@@ -17,6 +19,7 @@ namespace PhoneBook.Web.Controllers
 
         public async Task<IActionResult> ContactInfoList(string personId)
         {
+            ViewData["PersonId"] = personId;
             return PartialView("_ContactInfoList", await _contactInfoService.GetAllContactInfoPersonIdAsync(personId));
         }
 
@@ -29,18 +32,19 @@ namespace PhoneBook.Web.Controllers
                 PersonId = id,
                 FullName = person.FirstName + " " + person.LastName
             };
-            return View(model);
+            return PartialView("_Create", model);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(ContactInfoCreateInput contactInfoCreateInput)
         {
             if (!ModelState.IsValid)
-            {
-                return View(contactInfoCreateInput);
-            }
-            await _contactInfoService.CreateContactInfoAsync(contactInfoCreateInput);
-            return RedirectToAction("Update", "Persons", new { id = contactInfoCreateInput.PersonId });
+                return ControllerHelper.GenerateModelErrorJsonResult(ModelState);
+            var response = await _contactInfoService.CreateContactInfoAsync(contactInfoCreateInput);
+            if (response.Errors != null)
+                return this.CustomJsonResponse(title: LocalizationHelper.SorryText, error: string.Join(", ", response.Errors));
+            else
+                return this.CustomJsonResponse(title: LocalizationHelper.SuccessTitle, info: LocalizationHelper.SuccessInfo, popup: true);
         }
 
         public async Task<IActionResult> Update(string id)
@@ -60,28 +64,33 @@ namespace PhoneBook.Web.Controllers
                 FullName = person.FirstName + " " + person.LastName
             };
 
-            return View(contactInfoUpdateInput);
+            return PartialView("_Update", contactInfoUpdateInput);
         }
 
         [HttpPost]
         public async Task<IActionResult> Update(ContactInfoUpdateInput contactInfoUpdateInput)
         {
             if (!ModelState.IsValid)
-            {
-                return View(contactInfoUpdateInput);
-            }
-            var contactInfo = _contactInfoService.GetByContactInfoId(contactInfoUpdateInput.UUID);
-            if (!contactInfo.IsCompleted)
-                RedirectToAction(nameof(Index));
-            await _contactInfoService.UpdateContactInfoAsync(contactInfoUpdateInput);
-            return RedirectToAction("Update","Persons",new { id= contactInfo.Result.PersonId});
+                return ControllerHelper.GenerateModelErrorJsonResult(ModelState);
+
+            var contactInfo = await _contactInfoService.GetByContactInfoId(contactInfoUpdateInput.UUID);
+            if (contactInfo == null)
+                return this.CustomJsonResponse(title: LocalizationHelper.SorryText, error: LocalizationHelper.NotFoundError);
+            var response = await _contactInfoService.UpdateContactInfoAsync(contactInfoUpdateInput);
+            if (response.IsSuccessful == true)
+                return this.CustomJsonResponse(title: LocalizationHelper.SuccessTitle, info: LocalizationHelper.SuccessInfo, popup: true);
+            else
+                return this.CustomJsonResponse(title: LocalizationHelper.SorryText, error: string.Join(", ", response.Errors));
+
         }
 
         public async Task<IActionResult> Delete(string id)
         {
-            var contactInfo = _contactInfoService.GetByContactInfoId(id);
+            var contactInfo = await _contactInfoService.GetByContactInfoId(id);
+            if (contactInfo == null)
+                return this.CustomJsonResponse(title: LocalizationHelper.SorryText, error: LocalizationHelper.NotFoundError);
             await _contactInfoService.DeleteContactInfoAsync(id);
-            return RedirectToAction("Update", "Persons", new { id = contactInfo.Result.PersonId });
+            return this.CustomJsonResponse(title: LocalizationHelper.SuccessTitle, info: LocalizationHelper.DeleteInfo, popup: true);
         }
     }
 }

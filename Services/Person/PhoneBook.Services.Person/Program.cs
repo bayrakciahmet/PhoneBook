@@ -51,11 +51,19 @@ using (var scope = app.Services.CreateScope())
 {
     var serviceProvider = scope.ServiceProvider;
     var personService = serviceProvider.GetRequiredService<IPersonService>();
-
+    var contactInfoService = serviceProvider.GetRequiredService<IContactInfoService>();
     if (!(await personService.GetAllAsync()).Data.Any())
     {
-        await personService.CreateAsync(new PersonCreateDto { FirstName = "Ahmet", LastName = "BAYRAKCI", Company = "" });
-        await personService.CreateAsync(new PersonCreateDto { FirstName = "Merve", LastName = "BAYRAKCI", Company = "" });
+        var personOne = await personService.CreateAsync(new PersonCreateDto { FirstName = "Ahmet", LastName = "BAYRAKCI", Company = "" });
+        await contactInfoService.CreateAsync(new PhoneBook.Services.Person.Dtos.ContactInfos.ContactInfoCreateDto { PersonId = personOne.Data.UUID, InfoType = "Konum", InfoContent = "Konya" });
+        await contactInfoService.CreateAsync(new PhoneBook.Services.Person.Dtos.ContactInfos.ContactInfoCreateDto { PersonId = personOne.Data.UUID, InfoType = "E-mail", InfoContent = "bayrakciahmet42@gmail.com" });
+        await contactInfoService.CreateAsync(new PhoneBook.Services.Person.Dtos.ContactInfos.ContactInfoCreateDto { PersonId = personOne.Data.UUID, InfoType = "Telefon", InfoContent = "05073072605" });
+        var personTwo = await personService.CreateAsync(new PersonCreateDto { FirstName = "Merve", LastName = "BAYRAKCI", Company = "" });
+        await contactInfoService.CreateAsync(new PhoneBook.Services.Person.Dtos.ContactInfos.ContactInfoCreateDto { PersonId = personTwo.Data.UUID, InfoType = "Telefon", InfoContent = "05538330296" });
+        await contactInfoService.CreateAsync(new PhoneBook.Services.Person.Dtos.ContactInfos.ContactInfoCreateDto { PersonId = personTwo.Data.UUID, InfoType = "Konum", InfoContent = "Konya" });
+
+        var personThree = await personService.CreateAsync(new PersonCreateDto { FirstName = "Fatih", LastName = "Celen", Company = "" });
+        await contactInfoService.CreateAsync(new PhoneBook.Services.Person.Dtos.ContactInfos.ContactInfoCreateDto { PersonId = personThree.Data.UUID, InfoType = "Konum", InfoContent = "Ankara" });
     }
 }
 #endregion

@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = $"Kişi Güncelle({Model.FirstName} {Model.LastName})";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["PersonId"] = Model.UUID;
@@ -39,8 +38,23 @@
             </form>
         </div>
     </div>
-
-    <partial name="/Views/ContactInfos/_ContactInfoList.cshtml" model="@Model.ContactInfos"  />
+   
+    <h2 class="intro-y text-lg font-medium mt-10">
+        İletişim Bilgileri
+    </h2>
+    <div class="grid grid-cols-12 gap-6 mt-5">
+        <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
+            <a data-url="@Url.Action("Create", "ContactInfos", new { id = ViewData["PersonId"] })" class="btn btn-primary shadow-md mr-2 modal-btn">Yeni İletişim Bilgisi Ekle</a>
+        </div>
+        <!-- BEGIN: Data List -->
+        <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
+            <div id="contact-info-list">
+                <partial name="/Views/ContactInfos/_ContactInfoList.cshtml" model="@Model.ContactInfos" />
+            </div>
+        </div>
+        <!-- END: Data List -->
+       
+    </div>
 
     <!-- BEGIN: Delete Confirmation Modal -->
     <div id="delete-confirmation-modal" class="modal" tabindex="-1" aria-hidden="true">
@@ -56,7 +70,7 @@
                             Bu işlem geri alınamaz.
                         </div>
                     </div>
-                    <form action="" method="get" id="delete-form">
+                    <form action="" method="get" id="delete-form" class="ajax-form" data-popup="delete-confirmation-modal" data-grid="refreshContactInfo">
                         <div class="px-5 pb-8 text-center">
                             <button type="button" data-tw-dismiss="modal" class="btn btn-outline-secondary w-24 mr-1">İptal</button>
                             <button type="submit" class="btn btn-danger w-24">Sil</button>
@@ -68,12 +82,52 @@
         </div>
     </div>
     <!-- END: Delete Confirmation Modal -->
+    <!-- BEGIN: Main Modal -->
+    <div id="main-modal" class="modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body p-0" id="main-modal-content">
+                    <div class="p-5 text-center">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END: Main Modal -->
 </div>
 <!-- END: Content -->
 @section scripts {
-
     <script>
-        $('.delete-btn').click(function () {
+        function refreshContactInfo() {
+            $.ajax({
+                url: '@Url.Action("ContactInfoList", "ContactInfos", new { personId =Model.UUID})',
+                type: 'GET',
+                success: function (data) {
+                    $('#contact-info-list').html(data);
+                },
+                error: function () {
+                }
+            });
+        }
+    </script>
+    <script>
+        $(document).on('click', '.modal-btn', function () {
+            $.ajax({
+                url: $(this).data('url'),
+                type: 'GET',
+                success: function (data) {
+                    $('#main-modal-content').html(data);
+                    var el = document.querySelector("#main-modal");
+                    var modal = tailwind.Modal.getOrCreateInstance(el);
+                    modal.show();
+                },
+                error: function () {
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).on('click', '.delete-btn', function () {
             $("#delete-form").attr("action", $(this).attr("data-action"));
         });
     </script>

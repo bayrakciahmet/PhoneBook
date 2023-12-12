@@ -17,7 +17,8 @@ namespace PhoneBook.Services.Person.Validators.ContactInfos
                 .Must(BeValidHex).WithMessage("PersonId geçerli bir 24 karakterli hex değeri olmalıdır.");
 
             RuleFor(dto => dto.InfoType)
-                .NotEmpty().WithMessage("InfoType boş olamaz.");
+                .NotEmpty().WithMessage("InfoType boş olamaz.")
+                .Must(BeValidInfoType).WithMessage("Geçersiz InfoType değeri.");
 
             RuleFor(dto => dto.InfoContent)
                 .NotEmpty().WithMessage("InfoContent boş olamaz.");
@@ -29,6 +30,11 @@ namespace PhoneBook.Services.Person.Validators.ContactInfos
                 return false;
 
             return ObjectId.TryParse(value, out _);
+        }
+        private bool BeValidInfoType(string value)
+        {
+            string[] allowedTypes = { "Telefon", "E-mail", "Konum" };
+            return !string.IsNullOrEmpty(value) && allowedTypes.Contains(value);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using PhoneBook.Web.Models.ContactInfos;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using PhoneBook.Shared.Dtos;
+using PhoneBook.Web.Models.ContactInfos;
 
 namespace PhoneBook.Web.Services.Interfaces
 {
@@ -10,9 +12,9 @@ namespace PhoneBook.Web.Services.Interfaces
 
         Task<ContactInfoViewModel> GetByContactInfoId(string id);
 
-        Task<bool> CreateContactInfoAsync(ContactInfoCreateInput contactInfoCreateInput);
+        Task<Response<ContactInfoViewModel>> CreateContactInfoAsync(ContactInfoCreateInput contactInfoCreateInput);
 
-        Task<bool> UpdateContactInfoAsync(ContactInfoUpdateInput contactInfoUpdateInput);
+        Task<Response<NoContent>> UpdateContactInfoAsync(ContactInfoUpdateInput contactInfoUpdateInput);
 
         Task<bool> DeleteContactInfoAsync(string id);
     }
