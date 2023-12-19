@@ -4,6 +4,7 @@ using PhoneBook.Web.Services.Interfaces;
 
 namespace PhoneBook.Web.Controllers
 {
+
     public class PersonsController : Controller
     {
         private readonly IPersonService _personService;
@@ -72,7 +73,5 @@ namespace PhoneBook.Web.Controllers
             await _personService.DeletePersonAsync(id);
             return RedirectToAction(nameof(Index));
         }
-
-
     }
 }

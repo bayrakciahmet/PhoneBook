@@ -22,7 +22,7 @@ namespace PhoneBook.Services.Report.Test.Controllers
             var mockService = new Mock<IReportService>();
             mockService.Setup(service => service.GetAllAsync()).ReturnsAsync(Response<List<ReportDto>>.Success(fakeReports, 200));
 
-            var controller = new ReportsController(mockService.Object, null, null);
+            var controller = new ReportsController(mockService.Object, null, null,null);
 
             // Act
             var result = await controller.GetAll();
@@ -42,7 +42,7 @@ namespace PhoneBook.Services.Report.Test.Controllers
             var mockService = new Mock<IReportService>();
             mockService.Setup(service => service.GetAllAsync()).ReturnsAsync(Response<List<ReportDto>>.Success(new List<ReportDto>(), 200));
 
-            var controller = new ReportsController(mockService.Object, null, null);
+            var controller = new ReportsController(mockService.Object, null, null,null);
 
             // Act
             var result = await controller.GetAll();
@@ -65,7 +65,7 @@ namespace PhoneBook.Services.Report.Test.Controllers
             var mockService = new Mock<IReportService>();
             mockService.Setup(service => service.GetByIdAsync(fakeReportId)).ReturnsAsync(Response<ReportDto>.Success(fakeReport, 200));
 
-            var controller = new ReportsController(mockService.Object, null, null);
+            var controller = new ReportsController(mockService.Object, null, null,null);
 
             // Act
             var result = await controller.GetById(fakeReportId);
@@ -87,7 +87,7 @@ namespace PhoneBook.Services.Report.Test.Controllers
             var mockService = new Mock<IReportService>();
             mockService.Setup(service => service.GetByIdAsync(fakeReportId)).ReturnsAsync(Response<ReportDto>.Fail("Report not found", 404));
 
-            var controller = new ReportsController(mockService.Object, null, null);
+            var controller = new ReportsController(mockService.Object, null, null, null);
 
             // Act
             var result = await controller.GetById(fakeReportId);
@@ -112,7 +112,7 @@ namespace PhoneBook.Services.Report.Test.Controllers
             var mockService = new Mock<IReportService>();
             mockService.Setup(service => service.UpdateAsync(fakeReportUpdateDto)).ReturnsAsync(Response<NoContent>.Success(204));
 
-            var controller = new ReportsController(mockService.Object, null, null);
+            var controller = new ReportsController(mockService.Object, null, null, null);
 
             // Act
             var result = await controller.Update(fakeReportUpdateDto);
@@ -134,7 +134,7 @@ namespace PhoneBook.Services.Report.Test.Controllers
             var mockService = new Mock<IReportService>();
             mockService.Setup(service => service.UpdateAsync(fakeReportUpdateDto)).ReturnsAsync(Response<NoContent>.Fail("Report not found", 404));
 
-            var controller = new ReportsController(mockService.Object, null, null);
+            var controller = new ReportsController(mockService.Object, null, null, null);
 
             // Act
             var result = await controller.Update(fakeReportUpdateDto);
@@ -157,7 +157,7 @@ namespace PhoneBook.Services.Report.Test.Controllers
             var mockService = new Mock<IReportService>();
             mockService.Setup(service => service.DeleteAsync(fakeReportId)).ReturnsAsync(Response<NoContent>.Success(204));
 
-            var controller = new ReportsController(mockService.Object, null, null);
+            var controller = new ReportsController(mockService.Object, null, null, null);
 
             // Act
             var result = await controller.Delete(fakeReportId);
@@ -179,7 +179,7 @@ namespace PhoneBook.Services.Report.Test.Controllers
             var mockService = new Mock<IReportService>();
             mockService.Setup(service => service.DeleteAsync(fakeReportId)).ReturnsAsync(Response<NoContent>.Fail("Report not found", 404));
 
-            var controller = new ReportsController(mockService.Object, null, null);
+            var controller = new ReportsController(mockService.Object, null, null, null);
 
             // Act
             var result = await controller.Delete(fakeReportId);

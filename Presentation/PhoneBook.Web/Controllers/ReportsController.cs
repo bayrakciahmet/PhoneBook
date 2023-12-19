@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using PhoneBook.Web.Models.ContactInfos;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PhoneBook.Web.Models.Reports;
 using PhoneBook.Web.Services.Interfaces;
 
 namespace PhoneBook.Web.Controllers
 {
+    [Authorize]
     public class ReportsController : Controller
     {
         private readonly IReportService _reportService;
@@ -53,8 +54,8 @@ namespace PhoneBook.Web.Controllers
             {
                 Id = report.Id,
                 ReportName = report.ReportName,
-                Status=report.Status,
-                reportLocations= reportLocations
+                Status = report.Status,
+                reportLocations = reportLocations
             };
 
             return View(reportUpdateInput);

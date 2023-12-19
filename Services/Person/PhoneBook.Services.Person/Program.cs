@@ -1,4 +1,6 @@
 using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using PhoneBook.Services.Person.Dtos.Persons;
@@ -18,6 +20,36 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Person API", Version = "v1" });
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "bearer"
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type=ReferenceType.SecurityScheme,
+                    Id="Bearer"
+                }
+            },
+            new string[]{}
+        }
+    });
+});
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.Authority = builder.Configuration["IdentityServerUrl"];
+    options.Audience = "resource_person";
+    options.RequireHttpsMetadata = false;
 });
 #region AddScoped
 builder.Services.AddScoped<IPersonService, PersonService>();
@@ -38,7 +70,9 @@ builder.Services.AddSingleton<IDatabaseSettings>(sp =>
 
 
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(opt=> {
+    opt.Filters.Add(new AuthorizeFilter());
+});
 builder.Services.AddValidatorsFromAssemblyContaining<PersonCreateDtoValidator>()
                 .AddValidatorsFromAssemblyContaining<PersonUpdateDtoValidator>()
                 .AddValidatorsFromAssemblyContaining<ContactInfoCreateDtoValidator>()
@@ -79,6 +113,10 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Person API V1");
     });
 }
+
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapControllers();
 app.Run();
 

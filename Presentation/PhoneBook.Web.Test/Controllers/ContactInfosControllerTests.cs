@@ -126,7 +126,7 @@ namespace PhoneBook.Web.Test.Controllers
             contactInfoServiceMock.Setup(x => x.GetByContactInfoId(It.IsAny<string>()))
                 .ReturnsAsync(new ContactInfoViewModel());
             contactInfoServiceMock.Setup(x => x.UpdateContactInfoAsync(It.IsAny<ContactInfoUpdateInput>()))
-                .ReturnsAsync(new Response<NoContent> { IsSuccessful = true });
+                .ReturnsAsync(new Response<Microsoft.AspNetCore.Http.HttpResults.NoContent> { IsSuccessful = true });
 
             var controller = new ContactInfosController(contactInfoServiceMock.Object, personServiceMock.Object);
 

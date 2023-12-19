@@ -14,11 +14,18 @@ namespace PhoneBook.Services.Report.Controllers
         private readonly IReportService _reportService;
         private readonly IReportLocationService _reportLocationService;
         private readonly ISendEndpointProvider _sendEndpointProvider;
-        public ReportsController(IReportService reportService, ISendEndpointProvider sendEndpointProvider, IReportLocationService reportLocationService)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        
+        public ReportsController(
+            IReportService reportService,
+            ISendEndpointProvider sendEndpointProvider,
+            IReportLocationService reportLocationService,
+            IHttpContextAccessor httpContextAccessor)
         {
             _reportService = reportService;
             _sendEndpointProvider = sendEndpointProvider;
             _reportLocationService = reportLocationService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet]
@@ -39,16 +46,19 @@ namespace PhoneBook.Services.Report.Controllers
         public async Task<IActionResult> Create(ReportCreateDto reportCreateDto)
         {
             reportCreateDto.Status = "Hazırlanıyor";
+            var accessToken = _httpContextAccessor.HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            Console.WriteLine(accessToken);
             var report = await _reportService.CreateAsync(reportCreateDto);
-            if (report.IsSuccessful==true)
+            if (report.IsSuccessful == true)
             {
                 var sendEndpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("queue:create-report-service"));
                 CreateReportMessageCommand createReportMessageCommand = new CreateReportMessageCommand()
                 {
-                    ReportId = report.Data.Id
+                    ReportId = report.Data.Id,
+                    AccessToken = accessToken
                 };
                 await sendEndpoint.Send<CreateReportMessageCommand>(createReportMessageCommand);
-            }            
+            }
             return CreateActionResultInstance(report);
         }
 
