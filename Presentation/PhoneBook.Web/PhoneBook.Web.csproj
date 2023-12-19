@@ -35,8 +35,4 @@
     <ProjectReference Include="..\..\Shared\PhoneBook.Shared\PhoneBook.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\User\" />
-  </ItemGroup>
-
 </Project>

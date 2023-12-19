@@ -34,7 +34,6 @@ namespace PhoneBook.IdentityServer.Controllers
                 Title = registerDto.Title,
             };
             var result = await _userManager.CreateAsync(user, registerDto.Password);
-
             if (!result.Succeeded)
             {
                 return BadRequest(Shared.Dtos.Response<TNoContent>.Fail(result.Errors.Select(x => x.Description).ToList(), 400));

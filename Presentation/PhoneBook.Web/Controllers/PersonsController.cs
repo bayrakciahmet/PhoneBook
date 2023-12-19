@@ -49,7 +49,6 @@ namespace PhoneBook.Web.Controllers
                 UUID = person.UUID,
                 ContactInfos = await _contactInfoService.GetAllContactInfoPersonIdAsync(person.UUID)
             };
-
             return View(personUpdateInput);
         }
 
