@@ -5,6 +5,10 @@ Projenin Çalıştırılması
   
   -docker-compose up işlemi tamamlandıktan sonra hiç bir ek konfigürasyon yapmadan http://localhost:6010/ web projesine erişilebilir.
 
+IdentityServer ile microservisler koruma altına alınmıştır. ClientCredentials & ResourceOwnerPassword
+
+IdentityServer Url =>  http://localhost:6002/
+  
 Services
 
   -personApi => http://localhost:6011/swagger/index.html
@@ -34,7 +38,7 @@ Mikroservisler
 
   PhoneBook.Services.Report/Controllers/ReportsController içerisinde Create Methodunda MassTransit ile "queue:create-report-service" kuyruğuna mesaj bırakılarak, 
   PhoneBook.Services.Report/Consumers/CreateReportMessageCommandConsumer.cs içerisinde bırakılan mesajların sırayla dinlenmesi sağlanmıştır.
-  CreateReportMessageCommandConsumer sınıfı içerisinde PhoneBook.Services.Person servisi ile Gateway üzerinden iletişim kurularak raporun detay bilgileri alınır.
+  PhoneBook.Services.Report/Services/IReportProcessingService sınıfı içerisinde PhoneBook.Services.Person servisi ile Gateway üzerinden iletişim kurularak raporun detay bilgileri alınır.
 
 
 =>PhoneBook.Gateway
