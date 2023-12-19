@@ -8,5 +8,6 @@ namespace PhoneBook.Shared.Messages
     {
         public int ReportId { get; set; }
 
+        public string AccessToken { get; set; } 
     }
 }

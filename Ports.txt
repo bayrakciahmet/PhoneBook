@@ -2,5 +2,5 @@ Services
      -personApi=> 6011
      -reportApi=>6012
 Gateway => 6001
-
+Identity Server => 6002
 Web=> 6010

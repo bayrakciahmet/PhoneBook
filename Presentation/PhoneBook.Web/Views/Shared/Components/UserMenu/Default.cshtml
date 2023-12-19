@@ -1,0 +1,24 @@
+﻿@model PhoneBook.Web.Models.UserViewModel
+
+<!-- BEGIN: Account Menu -->
+<div class="intro-y dropdown w-8 h-8">
+    <div class="dropdown-toggle w-8 h-8 rounded-full overflow-hidden shadow-lg image-fit zoom-in scale-110" role="button" aria-expanded="false" data-tw-toggle="dropdown">
+        @*<img alt="" src="/Content/dist/images/profile-5.jpg">*@
+        <i style="margin: auto; color: rgb(255 255 255/var(--tw-text-opacity));" data-lucide="user"></i>
+    </div>
+    <div class="dropdown-menu w-56">
+        <ul class="dropdown-content bg-primary/80 before:block before:absolute before:bg-black before:inset-0 before:rounded-md before:z-[-1] text-white">
+            <li class="p-2">
+                <div class="font-medium">@Model.UserName</div>
+                <div class="text-xs text-white/60 mt-0.5 dark:text-slate-500">@Model.Title</div>
+            </li>
+            <li>
+                <hr class="dropdown-divider border-white/[0.08]">
+            </li>
+            <li>
+                <a asp-action="Logout" asp-controller="Auth" class="dropdown-item hover:bg-white/5"> <i data-lucide="toggle-right" class="w-4 h-4 mr-2"></i> Çıkış Yap </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- END: Account Menu -->

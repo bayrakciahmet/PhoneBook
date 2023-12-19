@@ -12,7 +12,11 @@
       "UpstreamPathTemplate": "/person/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
       "UpstreamScheme": "http",
-      "SwaggerKey": "person"
+      "SwaggerKey": "person",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "GatewayAuthenticationScheme",
+        "AllowedScopes": [ "person_fullpermission" ]
+      }
     },
     {
       "DownstreamPathTemplate": "/{everything}",
@@ -26,7 +30,11 @@
       "UpstreamPathTemplate": "/report/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
       "UpstreamScheme": "http",
-      "SwaggerKey": "report"
+      "SwaggerKey": "report",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "GatewayAuthenticationScheme",
+        "AllowedScopes": [ "report_fullpermission" ]
+      }
     }
   ],
   "GlobalConfiguration": {

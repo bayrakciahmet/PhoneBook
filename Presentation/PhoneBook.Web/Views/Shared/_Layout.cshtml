@@ -11,8 +11,6 @@
     <link rel="stylesheet" href="/Content/dist/css/app.css" />
     <link href="~/Content/dist/css/toastr.min.css" rel="stylesheet" />
     <!-- END: CSS Assets-->
-    
-
     <style>
         .popup-radius {
             border-radius: 20px;
@@ -52,10 +50,7 @@
             }
         }
     </style>
-  
-
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-   
+    <script src="~/lib/jquery/dist/jquery.js"></script> 
     @RenderSection("style", false)
 </head>
 
@@ -104,7 +99,10 @@
                 </ol>
             </nav>
             <!-- END: Breadcrumb -->
-           
+           @if(User.Identity.IsAuthenticated)
+            {
+                @await Component.InvokeAsync("UserMenu")             
+            }
         </div>
     </div>
     <!-- END: Top Bar -->
@@ -127,9 +125,7 @@
             </ul>
         </nav>
         <!-- END: Side Menu -->
-        <!-- BEGIN: Content -->
         @RenderBody()
-        <!-- END: Content -->
     </div>   
     <!-- BEGIN: JS Assets-->
     <script src="/Content/dist/js/app.js"></script>

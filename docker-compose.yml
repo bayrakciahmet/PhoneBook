@@ -4,8 +4,15 @@ services:
     image: mongo
   reportdb:
     image: postgres
+  identitydb:
+    image: mcr.microsoft.com/mssql/server:2019-latest
   rabbitmq: 
     image: rabbitmq:3.12.9-management
+  identityserver.api:
+    image: identityserver_api_image
+    build:
+      context: .
+      dockerfile: IdentityServer/PhoneBook.IdentityServer/Dockerfile
   person.api:
    image: person_api_image
    build:
@@ -32,3 +39,4 @@ services:
 volumes:
   persondb_volume:
   reportdb_volume:
+  identitydb_volume:
