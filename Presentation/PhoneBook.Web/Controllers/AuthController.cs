@@ -15,9 +15,10 @@ namespace PhoneBook.Web.Controllers
             _identityService = identityService;
         }
 
-        public IActionResult SignIn()
+        public IActionResult SignIn(string? ReturnUrl)
         {
-            return View();
+            SigninInput signinInput = new SigninInput { ReturnUrl = ReturnUrl };
+            return View(signinInput);
         }
 
         [HttpPost]
@@ -25,7 +26,7 @@ namespace PhoneBook.Web.Controllers
         {
             if (!ModelState.IsValid)
                 return View();
-            var response= await _identityService.SignIn(signinInput);
+            var response = await _identityService.SignIn(signinInput);
             if (!response.IsSuccessful)
             {
                 foreach (var error in response.Errors)
@@ -34,7 +35,12 @@ namespace PhoneBook.Web.Controllers
                 }
             }
             else
-                return RedirectToAction(nameof(Index), "Home");
+            {
+                if (!string.IsNullOrEmpty(signinInput.ReturnUrl))
+                    return Redirect(signinInput.ReturnUrl);
+                else
+                    return RedirectToAction(nameof(Index), "Home");
+            }
             return View();
         }
         public async Task<IActionResult> Logout()

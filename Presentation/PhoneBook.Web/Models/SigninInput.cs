@@ -14,5 +14,7 @@ namespace PhoneBook.Web.Models
 
         [Display(Name = "Beni hatırla")]
         public bool IsRemember { get; set; }
+
+        public string? ReturnUrl { get; set; }
     }
 }
